@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tCourse-edit" th:object="${tCourse}">
+            <input id="courseId" name="courseId" th:field="*{courseId}"  type="hidden">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">授课老师：</label>
+				<div class="col-sm-8">
+					<input id="userId" name="userId" th:field="*{userId}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">课程名称：</label>
+				<div class="col-sm-8">
+					<input id="courseName" name="courseName" th:field="*{courseName}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">封面图片路径：</label>
+				<div class="col-sm-8">
+					<input id="picUrl" name="picUrl" th:field="*{picUrl}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">pdf路径：</label>
+				<div class="col-sm-8">
+					<input id="pdfUrl" name="pdfUrl" th:field="*{pdfUrl}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">视频路径：</label>
+				<div class="col-sm-8">
+					<input id="videoUrl" name="videoUrl" th:field="*{videoUrl}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">课程描述：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" th:field="*{remark}" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">课程状态：</label>
+				<div class="col-sm-8">
+					<input id="status" name="status" th:field="*{status}" class="form-control" type="text">
+				</div>
+			</div>
+
+		</form>
+    </div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "teach/tCourse";
+		$("#form-tCourse-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			}
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-tCourse-edit').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

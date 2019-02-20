@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+<style>
+	.layui-upload-img {
+		max-width: 100%;
+	}
+</style>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tCourse-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">课程名称：</label>
+				<div class="col-sm-8">
+					<input id="courseName" name="courseName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">封面图片：</label>
+				<div class="col-sm-8">
+					<div class="layui-upload">
+						<input id="pic_url" name="pic_url" type="hidden">
+						<button type="button" class="layui-btn" id="cover">上传图片</button>
+						<div class="layui-upload-list">
+							<img class="layui-upload-img" id="coverurl">
+							<p id="demoText"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">pdf：</label>
+				<div class="col-sm-8">
+					<input type="file" name="file" id="pdfupload">
+					<input id="pdf_url" name="pdf_url" type="hidden">
+					<p id="pdfname"></p>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">视频：</label>
+				<div class="col-sm-8">
+					<input type="file" name="file" id="videoupload">
+					<input id="videoUrl" name="videoUrl" type="hidden">
+					<p id="videoname"></p>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">课程描述：</label>
+				<div class="col-sm-8">
+					<input id="remark" name="remark" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">课程状态：</label>
+				<div class="col-sm-8">
+					<div class="onoffswitch">
+						<input type="checkbox" th:checked="true" class="onoffswitch-checkbox" id="status" name="status">
+						<label class="onoffswitch-label" for="status">
+							<span class="onoffswitch-inner"></span>
+							<span class="onoffswitch-switch"></span>
+						</label>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+	<script th:src="@{/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript">
+        layui.use('upload', function(){
+            var $ = layui.jquery
+                ,upload = layui.upload;
+
+            //普通图片上传
+            var uploadInst = upload.render({
+                elem: '#cover'
+                ,url: '/common/upload'
+                ,before: function(obj){
+                    //预读本地文件示例，不支持ie8
+                    obj.preview(function(index, file, result){
+                        $('#coverurl').attr('src', result); //图片链接（base64）
+                    });
+                },
+				done: function(res){
+                    //如果上传失败
+                    if(res.code > 0){
+                        return layer.msg('上传失败');
+                    }else {
+                        $("#pic_url").attr("value",res.fileName);
+					}
+                    //上传成功
+                }
+            });
+            //绑定原始文件域 上传PDF
+            upload.render({
+                elem: '#pdfupload'
+                ,url: '/common/upload'
+                ,exts: 'pdf' //只允许上传PDF
+                ,done: function(res){
+                    console.log(res);
+                    $("#pdfname").text(res.msg);
+                    $("#pdf_url").attr("value", res.fileName);
+                }
+            });
+            //绑定原始文件域 上传视频
+            upload.render({
+                elem: '#videoupload'
+                ,url: '/common/upload'
+                ,exts: 'MP4|mp4|avi|wmv' //只允许上传PDF
+                ,done: function(res){
+                    console.log(res);
+                    $("#videoname").text(res.msg);
+                    $("#videoUrl").attr("value", res.fileName);
+                }
+            });
+        });
+
+		var prefix = ctx + "teach/tCourse"
+		$("#form-tCourse-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			}
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-tCourse-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>
