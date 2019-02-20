@@ -1,5 +1,6 @@
 package com.school.project.teach.course.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.school.common.support.Convert;
@@ -58,6 +59,7 @@ public class TCourseServiceImpl implements ITCourseService
 		tCourse.setUserId(Math.toIntExact(ShiroUtils.getUserId()));
 		tCourse.setCreateBy(ShiroUtils.getLoginName());
 		tCourse.setUpdateBy(ShiroUtils.getLoginName());
+		tCourse.setCreateTime(new Date());
 	    return tCourseMapper.insertTCourse(tCourse);
 	}
 

@@ -17,10 +17,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="fileName"    column="file_name"    />
     </resultMap>
 	
 	<sql id="selectTCourseVo">
-        select course_id, user_id, course_name, pic_url, pdf_url, video_url, remark, status, create_by, create_time, update_by, update_time from t_course
+        select course_id, user_id, course_name, pic_url, pdf_url, video_url, remark, status, create_by, create_time, update_by, update_time, file_name from t_course
     </sql>
 	
     <select id="selectTCourseList" parameterType="TCourse" resultMap="TCourseResult">
@@ -60,6 +61,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="createTime != null  ">create_time,</if>
 			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
 			<if test="updateTime != null  ">update_time,</if>
+            <if test="fileName != null  ">file_name,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="userId != null  ">#{userId},</if>
@@ -73,6 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="createTime != null  ">#{createTime},</if>
 			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
 			<if test="updateTime != null  ">#{updateTime},</if>
+            <if test="fileName != null  ">#{fileName},</if>
          </trim>
     </insert>
 	 
@@ -90,6 +93,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null  ">create_time = #{createTime},</if>
             <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
             <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="fileName != null  ">file_name = #{fileName},</if>
         </trim>
         where course_id = #{courseId}
     </update>

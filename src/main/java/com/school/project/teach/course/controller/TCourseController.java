@@ -126,5 +126,17 @@ public class TCourseController extends BaseController
 	{		
 		return toAjax(tCourseService.deleteTCourseByIds(ids));
 	}
+
+	/**
+	 * 查询小节列表-详细
+	 */
+	@RequiresPermissions("system:dict:list")
+	@GetMapping("/detail/{curseId}")
+	public String detail(@PathVariable("curseId") Long courseId, ModelMap mmap)
+	{
+		mmap.put("dict", dictTypeService.selectDictTypeById(courseId));
+		mmap.put("dictList", dictTypeService.selectDictTypeAll());
+		return "system/dict/data/data";
+	}
 	
 }

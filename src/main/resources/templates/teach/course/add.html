@@ -7,10 +7,14 @@
 	.layui-upload-img {
 		max-width: 100%;
 	}
+	.layui-input-block {
+		margin-left: auto;
+	}
 </style>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-tCourse-add">
+        <form class="layui-form form-horizontal m" id="form-tCourse-add">
+			<input id="fileName" name="fileName" type="hidden">
 			<div class="form-group">	
 				<label class="col-sm-3 control-label">课程名称：</label>
 				<div class="col-sm-8">
@@ -21,7 +25,7 @@
 				<label class="col-sm-3 control-label">封面图片：</label>
 				<div class="col-sm-8">
 					<div class="layui-upload">
-						<input id="pic_url" name="pic_url" type="hidden">
+						<input id="picUrl" name="picUrl" type="hidden">
 						<button type="button" class="layui-btn" id="cover">上传图片</button>
 						<div class="layui-upload-list">
 							<img class="layui-upload-img" id="coverurl">
@@ -30,18 +34,18 @@
 					</div>
 				</div>
 			</div>
-			<div class="form-group">	
+			<div class="form-group" id="pdf">
 				<label class="col-sm-3 control-label">pdf：</label>
 				<div class="col-sm-8">
-					<input type="file" name="file" id="pdfupload">
-					<input id="pdf_url" name="pdf_url" type="hidden">
+					<button type="button" class="layui-btn" id="pdfupload"><i class="layui-icon"></i>上传文件</button>
+					<input id="pdfUrl" name="pdfUrl" type="hidden">
 					<p id="pdfname"></p>
 				</div>
 			</div>
-			<div class="form-group">	
+			<div class="form-group" id="video">
 				<label class="col-sm-3 control-label">视频：</label>
 				<div class="col-sm-8">
-					<input type="file" name="file" id="videoupload">
+					<button type="button" class="layui-btn" id="videoupload"><i class="layui-icon"></i>上传文件</button>
 					<input id="videoUrl" name="videoUrl" type="hidden">
 					<p id="videoname"></p>
 				</div>
@@ -55,19 +59,18 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">课程状态：</label>
 				<div class="col-sm-8">
-					<div class="onoffswitch">
-						<input type="checkbox" th:checked="true" class="onoffswitch-checkbox" id="status" name="status">
-						<label class="onoffswitch-label" for="status">
-							<span class="onoffswitch-inner"></span>
-							<span class="onoffswitch-switch"></span>
-						</label>
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<input type="radio" name="status" value="0" title="开启" checked="">
+							<input type="radio" name="status" value="1" title="禁用">
+						</div>
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
     <div th:include="include::footer"></div>
-	<script th:src="@{/layui/layui.js}" charset="utf-8"></script>
+	<script th:src="@{/layui/layui.all.js}" charset="utf-8"></script>
     <script type="text/javascript">
         layui.use('upload', function(){
             var $ = layui.jquery
@@ -88,7 +91,7 @@
                     if(res.code > 0){
                         return layer.msg('上传失败');
                     }else {
-                        $("#pic_url").attr("value",res.fileName);
+                        $("#picUrl").attr("value",res.fileName);
 					}
                     //上传成功
                 }
@@ -101,20 +104,28 @@
                 ,done: function(res){
                     console.log(res);
                     $("#pdfname").text(res.msg);
-                    $("#pdf_url").attr("value", res.fileName);
+                    $("#pdfUrl").attr("value", res.fileName);
+                    $("#video").css("display", "none");
+                    $("#fileName").attr("value", res.oldFileName);
                 }
             });
             //绑定原始文件域 上传视频
             upload.render({
                 elem: '#videoupload'
                 ,url: '/common/upload'
-                ,exts: 'MP4|mp4|avi|wmv' //只允许上传PDF
+                ,exts: 'MP4|mp4|avi|wmv' //只允许上传视频
                 ,done: function(res){
                     console.log(res);
                     $("#videoname").text(res.msg);
                     $("#videoUrl").attr("value", res.fileName);
+                    $("#pdf").css("display", "none");
+                    $("#fileName").attr("value", res.oldFileName);
                 }
             });
+        });
+        layui.use('form', function(){
+            var form = layui.form;
+            form.render();
         });
 
 		var prefix = ctx + "teach/tCourse"

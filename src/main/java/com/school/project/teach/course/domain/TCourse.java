@@ -39,6 +39,8 @@ public class TCourse extends BaseEntity
 	private String updateBy;
 	/** 修改时间 */
 	private Date updateTime;
+	/** 文件名称 */
+	private String fileName;
 
 	public void setCourseId(Integer courseId) 
 	{
@@ -149,7 +151,14 @@ public class TCourse extends BaseEntity
 		return updateTime;
 	}
 
-    public String toString() {
+	public String getFileName() {
+		return fileName;
+	}
+public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("courseId", getCourseId())
             .append("userId", getUserId())

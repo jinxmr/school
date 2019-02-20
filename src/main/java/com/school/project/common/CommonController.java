@@ -83,6 +83,7 @@ public class CommonController
             AjaxResult ajax = AjaxResult.success();
             ajax.put("fileName", fileName);
             ajax.put("url", url);
+            ajax.put("oldFileName",file.getOriginalFilename());
             return ajax;
         }
         catch (Exception e)
