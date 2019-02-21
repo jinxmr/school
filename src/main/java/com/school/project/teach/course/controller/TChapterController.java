@@ -9,7 +9,9 @@ import com.school.framework.web.controller.BaseController;
 import com.school.framework.web.domain.AjaxResult;
 import com.school.framework.web.page.TableDataInfo;
 import com.school.project.teach.course.domain.TChapter;
+import com.school.project.teach.course.domain.TCourse;
 import com.school.project.teach.course.service.ITChapterService;
+import com.school.project.teach.course.service.ITCourseService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,10 +32,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/system/tChapter")
 public class TChapterController extends BaseController
 {
-    private String prefix = "system/tChapter";
+    private String prefix = "teach/chapter";
 	
 	@Autowired
 	private ITChapterService tChapterService;
+
+	@Autowired
+	private ITCourseService itCourseService;
 	
 	@RequiresPermissions("system:tChapter:view")
 	@GetMapping()
@@ -72,10 +77,14 @@ public class TChapterController extends BaseController
 	/**
 	 * 新增教学中心: 小节管理
 	 */
-	@GetMapping("/add")
-	public String add()
+	@GetMapping("/add/{courseId}")
+	public String add(@PathVariable("courseId")String courseId, ModelMap mmap)
 	{
-	    return prefix + "/add";
+		mmap.put("courseId", courseId);
+		//根据ID查询课程对象
+		TCourse tCourse = itCourseService.selectTCourseById(Integer.valueOf(courseId));
+		mmap.put("courseName", tCourse.getCourseName());
+		return prefix + "/add";
 	}
 	
 	/**

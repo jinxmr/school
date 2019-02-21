@@ -2,13 +2,24 @@
 <html  lang="zh" xmlns:th="http://www.thymeleaf.org">
 <meta charset="utf-8">
 <head th:include="include :: header"></head>
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+<style>
+	.layui-upload-img {
+		max-width: 100%;
+	}
+	.layui-input-block {
+		margin-left: auto;
+	}
+</style>
 <body class="white-bg">
     <div class="wrapper wrapper-content animated fadeInRight ibox-content">
-        <form class="form-horizontal m" id="form-tChapter-add">
+        <form class="layui-form form-horizontal m" id="form-tChapter-add">
+			<input id="fileName" name="fileName" type="hidden">
+			<input id="courseId" name="courseId" type="hidden" th:value="${courseId}">
 			<div class="form-group">	
-				<label class="col-sm-3 control-label">课程主键ID：</label>
+				<label class="col-sm-3 control-label">课程名称：</label>
 				<div class="col-sm-8">
-					<input id="courseId" name="courseId" class="form-control" type="text">
+					<input id="courseName" name="courseName" class="form-control" type="text" readonly="true" th:value="${courseName}">
 				</div>
 			</div>
 			<div class="form-group">	
@@ -17,16 +28,20 @@
 					<input id="chapterName" name="chapterName" class="form-control" type="text">
 				</div>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">pdf路径：</label>
+			<div class="form-group" id="pdf">
+				<label class="col-sm-3 control-label">pdf课件：</label>
 				<div class="col-sm-8">
-					<input id="pdfUrl" name="pdfUrl" class="form-control" type="text">
+					<button type="button" class="layui-btn" id="pdfupload"><i class="layui-icon"></i>上传文件</button>
+					<input id="pdfUrl" name="pdfUrl" type="hidden">
+					<p id="pdfname"></p>
 				</div>
 			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">视频路径：</label>
+			<div class="form-group" id="video">
+				<label class="col-sm-3 control-label">视频课件：</label>
 				<div class="col-sm-8">
-					<input id="videoUrl" name="videoUrl" class="form-control" type="text">
+					<button type="button" class="layui-btn" id="videoupload"><i class="layui-icon"></i>上传文件</button>
+					<input id="videoUrl" name="videoUrl" type="hidden">
+					<p id="videoname"></p>
 				</div>
 			</div>
 			<div class="form-group">	
@@ -36,45 +51,57 @@
 				</div>
 			</div>
 			<div class="form-group">	
-				<label class="col-sm-3 control-label">课程状态（0正常1停用）：</label>
+				<label class="col-sm-3 control-label">课程状态：</label>
 				<div class="col-sm-8">
-					<input id="status" name="status" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">创建者：</label>
-				<div class="col-sm-8">
-					<input id="createBy" name="createBy" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">创建时间：</label>
-				<div class="col-sm-8">
-					<input id="createTime" name="createTime" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">更新者：</label>
-				<div class="col-sm-8">
-					<input id="updateBy" name="updateBy" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">修改时间：</label>
-				<div class="col-sm-8">
-					<input id="updateTime" name="updateTime" class="form-control" type="text">
-				</div>
-			</div>
-			<div class="form-group">	
-				<label class="col-sm-3 control-label">文件名称：</label>
-				<div class="col-sm-8">
-					<input id="fileName" name="fileName" class="form-control" type="text">
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<input type="radio" name="status" value="0" title="开启" checked="">
+							<input type="radio" name="status" value="1" title="禁用">
+						</div>
+					</div>
 				</div>
 			</div>
 		</form>
 	</div>
     <div th:include="include::footer"></div>
+	<script th:src="@{/layui/layui.all.js}" charset="utf-8"></script>
     <script type="text/javascript">
+		/** layUI文件上传 表单显示等 --start */
+        layui.use('upload', function(){
+            var $ = layui.jquery
+                ,upload = layui.upload;
+
+            //绑定原始文件域 上传PDF
+            upload.render({
+                elem: '#pdfupload'
+                ,url: '/common/upload'
+                ,exts: 'pdf' //只允许上传PDF
+                ,done: function(res){
+                    console.log(res);
+                    $("#pdfname").text(res.oldFileName);
+                    $("#pdfUrl").attr("value", res.fileName);
+                    $("#video").css("display", "none");
+                    $("#fileName").attr("value", res.oldFileName);
+                }
+            });
+            //绑定原始文件域 上传视频
+            upload.render({
+                elem: '#videoupload'
+                ,url: '/common/upload'
+                ,exts: 'MP4|mp4|avi|wmv' //只允许上传视频
+                ,done: function(res){
+                    console.log(res);
+                    $("#videoname").text(res.oldFileName);
+                    $("#videoUrl").attr("value", res.fileName);
+                    $("#pdf").css("display", "none");
+                    $("#fileName").attr("value", res.oldFileName);
+                }
+            });
+        });
+        layui.use('form', function(){
+            var form = layui.form;
+            form.render();
+        });
 		var prefix = ctx + "system/tChapter"
 		$("#form-tChapter-add").validate({
 			rules:{
@@ -83,7 +110,7 @@
 				},
 			}
 		});
-		
+        /** layUI文件上传 表单显示等 --end */
 		function submitHandler() {
 	        if ($.validate.form()) {
 	            $.operate.save(prefix + "/add", $('#form-tChapter-add').serialize());

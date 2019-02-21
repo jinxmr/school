@@ -23,10 +23,6 @@ public class TCourse extends BaseEntity
 	private String courseName;
 	/** 封面图片路径 */
 	private String picUrl;
-	/** pdf路径 */
-	private String pdfUrl;
-	/** 视频路径 */
-	private String videoUrl;
 	/** 课程描述 */
 	private String remark;
 	/** 课程状态（0正常 1停用） */
@@ -39,8 +35,6 @@ public class TCourse extends BaseEntity
 	private String updateBy;
 	/** 修改时间 */
 	private Date updateTime;
-	/** 文件名称 */
-	private String fileName;
 
 	public void setCourseId(Integer courseId) 
 	{
@@ -77,24 +71,6 @@ public class TCourse extends BaseEntity
 	public String getPicUrl() 
 	{
 		return picUrl;
-	}
-	public void setPdfUrl(String pdfUrl) 
-	{
-		this.pdfUrl = pdfUrl;
-	}
-
-	public String getPdfUrl() 
-	{
-		return pdfUrl;
-	}
-	public void setVideoUrl(String videoUrl) 
-	{
-		this.videoUrl = videoUrl;
-	}
-
-	public String getVideoUrl() 
-	{
-		return videoUrl;
 	}
 	public void setRemark(String remark) 
 	{
@@ -151,12 +127,6 @@ public class TCourse extends BaseEntity
 		return updateTime;
 	}
 
-	public String getFileName() {
-		return fileName;
-	}
-public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
 
 	public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -164,8 +134,6 @@ public void setFileName(String fileName) {
             .append("userId", getUserId())
             .append("courseName", getCourseName())
             .append("picUrl", getPicUrl())
-            .append("pdfUrl", getPdfUrl())
-            .append("videoUrl", getVideoUrl())
             .append("remark", getRemark())
             .append("status", getStatus())
             .append("createBy", getCreateBy())

@@ -11,10 +11,6 @@
 					<div class="select-list">
 						<ul>
 							<li>
-								授课老师：<input type="text" name="userId"/>
-							</li>
-
-							<li>
 								课程名称：<input type="text" name="courseName"/>
 							</li>
 
@@ -23,6 +19,7 @@
 								<option value="">所有</option>
 								<option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
 							</select>
+							</li>
 
 							<li>
 								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -73,11 +70,6 @@
 					field : 'courseId', 
 					title : '主键ID',
 					visible: false
-				},
-				{
-					field : 'userId', 
-					title : '授课老师',
-					sortable: true
 				},
 				{
 					field : 'courseName',

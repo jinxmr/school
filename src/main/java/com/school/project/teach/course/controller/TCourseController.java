@@ -135,9 +135,9 @@ public class TCourseController extends BaseController
 	public String detail(@PathVariable("curseId") Long courseId, ModelMap mmap)
 	{
 		TCourse tCourse = tCourseService.selectTCourseById(Math.toIntExact(courseId));
-		mmap.put("dict", tCourse);
+		mmap.put("course", tCourse);
 		List<TCourse> tCourses = tCourseService.selectAll();
-		mmap.put("dictList", tCourses);
+		mmap.put("courseList", tCourses);
 		return "teach/chapter/tChapter";
 	}
 	
