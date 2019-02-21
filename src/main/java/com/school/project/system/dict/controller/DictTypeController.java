@@ -128,8 +128,10 @@ public class DictTypeController extends BaseController
     @GetMapping("/detail/{dictId}")
     public String detail(@PathVariable("dictId") Long dictId, ModelMap mmap)
     {
-        mmap.put("dict", dictTypeService.selectDictTypeById(dictId));
-        mmap.put("dictList", dictTypeService.selectDictTypeAll());
+        DictType dictType = dictTypeService.selectDictTypeById(dictId);
+        mmap.put("dict", dictType);
+        List<DictType> dictTypes = dictTypeService.selectDictTypeAll();
+        mmap.put("dictList", dictTypes);
         return "system/dict/data/data";
     }
 

@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.school.common.support.Convert;
 import com.school.common.utils.security.ShiroUtils;
+import com.school.project.system.base.mapper.BaseMapper;
+import com.school.project.system.base.service.BaseServiceImpl;
 import com.school.project.teach.course.domain.TCourse;
 import com.school.project.teach.course.mapper.TCourseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +20,16 @@ import org.springframework.stereotype.Service;
  * @date 2019-02-19
  */
 @Service
-public class TCourseServiceImpl implements ITCourseService
+public class TCourseServiceImpl extends BaseServiceImpl<TCourse> implements ITCourseService
 {
+
 	@Autowired
 	private TCourseMapper tCourseMapper;
 
+	@Override
+	protected BaseMapper<TCourse> getBaseMapper() {
+		return tCourseMapper;
+	}
 	/**
      * 查询教学中心: 课程管理信息
      *

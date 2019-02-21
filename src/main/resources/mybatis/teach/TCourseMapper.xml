@@ -41,6 +41,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="updateTime != null "> and update_time = #{updateTime}</if>
          </where>
     </select>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="TCourseResult">
+        <include refid="selectTCourseVo"/>
+        <where>
+            <if test="courseId != null "> and course_id = #{courseId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="courseName != null  and courseName != '' "> and course_name = #{courseName}</if>
+            <if test="picUrl != null  and picUrl != '' "> and pic_url = #{picUrl}</if>
+            <if test="pdfUrl != null  and pdfUrl != '' "> and pdf_url = #{pdfUrl}</if>
+            <if test="videoUrl != null  and videoUrl != '' "> and video_url = #{videoUrl}</if>
+            <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+            <if test="status != null  and status != '' "> and status = #{status}</if>
+            <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+            <if test="createTime != null "> and create_time = #{createTime}</if>
+            <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+            <if test="updateTime != null "> and update_time = #{updateTime}</if>
+        </where>
+    </select>
     
     <select id="selectTCourseById" parameterType="Integer" resultMap="TCourseResult">
         <include refid="selectTCourseVo"/>

@@ -1,5 +1,6 @@
 package com.school.project.teach.course.service;
 
+import com.school.project.system.base.service.BaseService;
 import com.school.project.teach.course.domain.TCourse;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2019-02-19
  */
-public interface ITCourseService 
+public interface ITCourseService extends BaseService<TCourse>
 {
 	/**
      * 查询教学中心: 课程管理信息

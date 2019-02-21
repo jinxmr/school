@@ -1,6 +1,8 @@
 package com.school.project.teach.course.mapper;
 
+import com.school.project.system.base.mapper.BaseMapper;
 import com.school.project.teach.course.domain.TCourse;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -10,7 +12,8 @@ import java.util.List;
  * @author ruoyi
  * @date 2019-02-19
  */
-public interface TCourseMapper 
+@Repository
+public interface TCourseMapper extends BaseMapper<TCourse>
 {
 	/**
      * 查询教学中心: 课程管理信息
