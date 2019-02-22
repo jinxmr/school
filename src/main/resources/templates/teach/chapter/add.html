@@ -79,7 +79,7 @@
                 ,done: function(res){
                     console.log(res);
                     $("#pdfname").text(res.oldFileName);
-                    $("#pdfUrl").attr("value", res.fileName);
+                    $("#pdfUrl").attr("value", res.url);
                     $("#video").css("display", "none");
                     $("#fileName").attr("value", res.oldFileName);
                 }
@@ -92,7 +92,7 @@
                 ,done: function(res){
                     console.log(res);
                     $("#videoname").text(res.oldFileName);
-                    $("#videoUrl").attr("value", res.fileName);
+                    $("#videoUrl").attr("value", res.url);
                     $("#pdf").css("display", "none");
                     $("#fileName").attr("value", res.oldFileName);
                 }

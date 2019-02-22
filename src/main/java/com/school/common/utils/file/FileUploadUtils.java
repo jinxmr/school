@@ -79,7 +79,11 @@ public class FileUploadUtils
     {
         try
         {
-            return upload(baseDir, file, FileUploadUtils.IMAGE_JPG_EXTENSION);
+            //获取文件名称
+            String fileName = file.getOriginalFilename();
+            //获取文件后缀
+            String suffix = fileName.substring(fileName.lastIndexOf("."));
+            return upload(baseDir, file, suffix);
         }
         catch (Exception e)
         {

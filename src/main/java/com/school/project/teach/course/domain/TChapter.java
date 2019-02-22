@@ -49,12 +49,12 @@ public class TChapter extends BaseEntity
 	{
 		return chapterId;
 	}
-	public void setCourseId(Integer courseId) 
+	public void setCourseId(Integer courseId)
 	{
 		this.courseId = courseId;
 	}
 
-	public Integer getCourseId() 
+	public Integer getCourseId()
 	{
 		return courseId;
 	}

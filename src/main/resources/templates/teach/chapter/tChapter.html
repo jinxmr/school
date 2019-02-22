@@ -56,7 +56,10 @@
                 createUrl: prefix + "/add/{id}",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
+                queryParams: queryParams,
                 modalName: "教学中心: 小节管理",
+                sortName: "createTime",
+                sortOrder: "asc",
 				search: false,
 		        showExport: true,
                 columns: [{
@@ -103,6 +106,17 @@
             };
             $.table.init(options);
         });
+
+        function queryParams(params) {
+            return {
+                courseId:       $("#courseId").val(),
+                pageSize:       params.limit,
+                pageNum:        params.offset / params.limit + 1,
+                searchValue:    params.search,
+                orderByColumn:  params.sort,
+                isAsc:          params.order
+            };
+        }
 		/*小节-新增小节*/
         function add() {
             var courseId = $("#courseId option:selected").val();
