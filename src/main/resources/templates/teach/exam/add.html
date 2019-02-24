@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<link rel="stylesheet" th:href="@{/layui/css/layui.css}"  media="all">
+<style>
+	.layui-upload-img {
+		max-width: 100%;
+	}
+	.layui-input-block {
+		margin-left: auto;
+	}
+	.alone {
+		width: 89%;
+		display: inline-block;
+	}
+</style>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="layui-form form-horizontal m" id="form-tTestquestion-add">
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">题目名称：</label>
+				<div class="col-sm-8">
+					<input id="qName" name="qName" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">选项：</label>
+				<div class="col-sm-8">
+					<input type="radio" name="isRight" value="0" checked=""><input name="sName" class="form-control alone" type="text">
+					<input type="radio" name="isRight" value="1"><input name="sName" class="form-control alone" type="text">
+					<input type="radio" name="isRight" value="2"><input name="sName" class="form-control alone" type="text">
+					<input type="radio" name="isRight" value="3"><input name="sName" class="form-control alone" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">排序：</label>
+				<div class="col-sm-8">
+					<input id="qNo" name="qNo" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">试题类型：</label>
+				<div class="col-sm-8">
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<input type="radio" name="qType" value="0" title="选择" checked="">
+							<input type="radio" name="qType" value="1" title="填空">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">分值：</label>
+				<div class="col-sm-8">
+					<input id="qScore" name="qScore" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+	<script th:src="@{/layui/layui.all.js}" charset="utf-8"></script>
+    <script type="text/javascript">
+		var prefix = ctx + "exam/tTestquestion"
+		$("#form-tTestquestion-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			}
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-tTestquestion-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

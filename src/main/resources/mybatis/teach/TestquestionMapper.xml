@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.school.project.teach.exam.mapper.TestquestionMapper">
+    
+    <resultMap type="Testquestion" id="TestquestionResult">
+        <result property="qId"    column="q_id"    />
+        <result property="qName"    column="q_name"    />
+        <result property="qNo"    column="q_no"    />
+        <result property="qType"    column="q_type"    />
+        <result property="qScore"    column="q_score"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateUser"    column="update_user"    />
+    </resultMap>
+	
+	<sql id="selectTTestquestionVo">
+        select q_id, q_name, q_no, q_type, q_score, create_time, create_user, update_time, update_user from t_testquestion
+    </sql>
+	
+    <select id="selectTTestquestionList" parameterType="Testquestion" resultMap="TestquestionResult">
+        <include refid="selectTTestquestionVo"/>
+        <where>  
+            <if test="qId != null "> and q_id = #{qId}</if>
+             <if test="qName != null  and qName != '' "> and q_name = #{qName}</if>
+             <if test="qNo != null "> and q_no = #{qNo}</if>
+             <if test="qType != null "> and q_type = #{qType}</if>
+             <if test="qScore != null "> and q_score = #{qScore}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="createUser != null  and createUser != '' "> and create_user = #{createUser}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="updateUser != null  and updateUser != '' "> and update_user = #{updateUser}</if>
+         </where>
+    </select>
+    
+    <select id="selectTTestquestionById" parameterType="Integer" resultMap="TestquestionResult">
+        <include refid="selectTTestquestionVo"/>
+        where q_id = #{qId}
+    </select>
+        
+    <insert id="insertTestquestion" parameterType="Testquestion" useGeneratedKeys="true" keyProperty="qId">
+        insert into t_testquestion
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="qName != null  and qName != ''  ">q_name,</if>
+			<if test="qNo != null  ">q_no,</if>
+			<if test="qType != null  ">q_type,</if>
+			<if test="qScore != null  ">q_score,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="createUser != null  and createUser != ''  ">create_user,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="updateUser != null  and updateUser != ''  ">update_user,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="qName != null  and qName != ''  ">#{qName},</if>
+			<if test="qNo != null  ">#{qNo},</if>
+			<if test="qType != null  ">#{qType},</if>
+			<if test="qScore != null  ">#{qScore},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="createUser != null  and createUser != ''  ">#{createUser},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="updateUser != null  and updateUser != ''  ">#{updateUser},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateTTestquestion" parameterType="Testquestion">
+        update t_testquestion
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="qName != null  and qName != ''  ">q_name = #{qName},</if>
+            <if test="qNo != null  ">q_no = #{qNo},</if>
+            <if test="qType != null  ">q_type = #{qType},</if>
+            <if test="qScore != null  ">q_score = #{qScore},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="createUser != null  and createUser != ''  ">create_user = #{createUser},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="updateUser != null  and updateUser != ''  ">update_user = #{updateUser},</if>
+        </trim>
+        where q_id = #{qId}
+    </update>
+
+	<delete id="deleteTTestquestionById" parameterType="Integer">
+        delete from t_testquestion where q_id = #{qId}
+    </delete>
+	
+    <delete id="deleteTTestquestionByIds" parameterType="String">
+        delete from t_testquestion where q_id in 
+        <foreach item="qId" collection="array" open="(" separator="," close=")">
+            #{qId}
+        </foreach>
+    </delete>
+    
+</mapper>
