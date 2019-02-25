@@ -50,6 +50,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:tTestquestion:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:tTestquestion:remove')}]];
+        var datas = [[${@dict.getType('sys_normal_disable')}]];
         var prefix = ctx + "exam/tTestquestion";
 
         $(function() {
@@ -58,13 +59,12 @@
                 createUrl: prefix + "/add",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
-				exportUrl: prefix + "/export",
                 modalName: "试题管理",
-				search: false,
-		        showExport: true,
+                search: false,
+                showExport: false,
                 columns: [{
-		            checkbox: true
-		        },
+                    checkbox: true
+                },
 				{
 					field : 'qId', 
 					title : '试题ID',
@@ -76,17 +76,20 @@
 					sortable: true
 				},
 				{
-					field : 'qNo', 
+					field : 'qNo',
 					title : '序号',
 					sortable: true
 				},
 				{
-					field : 'qType', 
+					field : 'qType',
 					title : '试题类型',
-					sortable: true
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(datas, value);
+                    }
 				},
 				{
-					field : 'qScore', 
+					field : 'qScore',
 					title : '分值',
 					sortable: true
 				},
