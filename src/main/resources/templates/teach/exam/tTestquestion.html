@@ -31,13 +31,13 @@
 			</div>
 			
 	        <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
-				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:tTestquestion:add">
+				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="exam:tTestquestion:add">
 					<i class="fa fa-plus"></i> 添加
 				</a>
-				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="system:tTestquestion:edit">
+				<a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()" shiro:hasPermission="exam:tTestquestion:edit">
 					<i class="fa fa-edit"></i> 修改
 				</a>
-				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:tTestquestion:remove">
+				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="exam:tTestquestion:remove">
 					<i class="fa fa-remove"></i> 删除
 				</a>
 			</div>
@@ -48,9 +48,10 @@
 	</div>
     <div th:include="include :: footer"></div>
     <script th:inline="javascript">
-        var editFlag = [[${@permission.hasPermi('system:tTestquestion:edit')}]];
-        var removeFlag = [[${@permission.hasPermi('system:tTestquestion:remove')}]];
-        var datas = [[${@dict.getType('sys_normal_disable')}]];
+        var editFlag = [[${@permission.hasPermi('exam:tTestquestion:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('exam:tTestquestion:remove')}]];
+        var datas = [[${@dict.getType('sys_question_type')}]];
+        console.log(datas);
         var prefix = ctx + "exam/tTestquestion";
 
         $(function() {
@@ -66,22 +67,22 @@
                     checkbox: true
                 },
 				{
-					field : 'qId', 
+					field : 'qid',
 					title : '试题ID',
 					visible: false
 				},
 				{
-					field : 'qName', 
+					field : 'qname',
 					title : '题目名称',
 					sortable: true
 				},
 				{
-					field : 'qNo',
+					field : 'qno',
 					title : '序号',
 					sortable: true
 				},
 				{
-					field : 'qType',
+					field : 'qtype',
 					title : '试题类型',
                     align: 'center',
                     formatter: function(value, row, index) {
@@ -89,7 +90,7 @@
                     }
 				},
 				{
-					field : 'qScore',
+					field : 'qscore',
 					title : '分值',
 					sortable: true
 				},
@@ -98,8 +99,8 @@
 		            align: 'center',
 		            formatter: function(value, row, index) {
 		            	var actions = [];
-		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.qId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.qId + '\')"><i class="fa fa-remove"></i>删除</a>');
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.qid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.qid + '\')"><i class="fa fa-remove"></i>删除</a>');
 						return actions.join('');
 		            }
 		        }]
