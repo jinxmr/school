@@ -14,6 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createUser"    column="create_user"    />
         <result property="updateTime"    column="update_time"    />
         <result property="updateUser"    column="update_user"    />
+        <collection property="tAnswerList" select="com.school.project.teach.answer.mapper.TAnswerMapper.selectById" column="qId"/>
     </resultMap>
 	
 	<sql id="selectTTestquestionVo">
@@ -35,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </where>
     </select>
     
-    <select id="selectTTestquestionById" parameterType="Integer" resultMap="TestquestionResult">
+    <select id="selectTTestquestionById" parameterType="String" resultMap="TestquestionResult">
         <include refid="selectTTestquestionVo"/>
         where q_id = #{qId}
     </select>
@@ -43,6 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertTestquestion" parameterType="Testquestion" useGeneratedKeys="true" keyProperty="qId">
         insert into t_testquestion
 		<trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="qId != null  and qId != ''  ">q_id,</if>
 			<if test="qName != null  and qName != ''  ">q_name,</if>
 			<if test="qNo != null  ">q_no,</if>
 			<if test="qType != null  ">q_type,</if>
@@ -53,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="updateUser != null  and updateUser != ''  ">update_user,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="qId != null  and qId != ''  ">#{qId},</if>
 			<if test="qName != null  and qName != ''  ">#{qName},</if>
 			<if test="qNo != null  ">#{qNo},</if>
 			<if test="qType != null  ">#{qType},</if>
@@ -79,7 +82,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where q_id = #{qId}
     </update>
 
-	<delete id="deleteTTestquestionById" parameterType="Integer">
+	<delete id="deleteTTestquestionById" parameterType="String">
         delete from t_testquestion where q_id = #{qId}
     </delete>
 	

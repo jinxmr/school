@@ -18,7 +18,7 @@ public interface TestquestionService
      * @param qId 试题管理ID
      * @return 试题管理信息
      */
-	public Testquestion selectTTestquestionById(Integer qId);
+	public Testquestion selectTTestquestionById(String qId);
 	
 	/**
      * 查询试题管理列表

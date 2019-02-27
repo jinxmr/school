@@ -1,9 +1,11 @@
 package com.school.project.teach.exam.domain;
 
 import com.school.framework.web.domain.BaseEntity;
+import com.school.project.teach.answer.domain.TAnswer;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 试题管理表 t_testquestion
@@ -16,7 +18,7 @@ public class Testquestion extends BaseEntity
 	private static final long serialVersionUID = 1L;
 	
 	/** 试题ID */
-	private Integer qId;
+	private String qId;
 	/** 题目名称 */
 	private String qName;
 	/** 序号，试题排序 */
@@ -33,13 +35,23 @@ public class Testquestion extends BaseEntity
 	private Date updateTime;
 	/** 修改者 */
 	private String updateUser;
+	/** 答案List */
+	private List<TAnswer> tAnswerList;
 
-	public void setQId(Integer qId) 
+	public List<TAnswer> gettAnswerList() {
+		return tAnswerList;
+	}
+
+	public void settAnswerList(List<TAnswer> tAnswerList) {
+		this.tAnswerList = tAnswerList;
+	}
+
+	public void setQId(String qId)
 	{
 		this.qId = qId;
 	}
 
-	public Integer getQId() 
+	public String getQId()
 	{
 		return qId;
 	}

@@ -21,7 +21,7 @@ public interface TestquestionMapper
      * @param qId 试题管理ID
      * @return 试题管理信息
      */
-	public Testquestion selectTTestquestionById(Integer qId);
+	public Testquestion selectTTestquestionById(String qId);
 	
 	/**
      * 查询试题管理列表
@@ -53,7 +53,7 @@ public interface TestquestionMapper
      * @param qId 试题管理ID
      * @return 结果
      */
-	public int deleteTTestquestionById(Integer qId);
+	public int deleteTTestquestionById(String qId);
 	
 	/**
      * 批量删除试题管理

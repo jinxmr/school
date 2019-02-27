@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.school.project.teach.answer.mapper.TAnswerMapper">
+    
+    <resultMap type="TAnswer" id="TAnswerResult">
+        <result property="sId"    column="s_id"    />
+        <result property="sName"    column="s_name"    />
+        <result property="isRight"    column="is_right"    />
+        <result property="qId"    column="q_id"    />
+        <result property="sSort"    column="s_sort"    />
+    </resultMap>
+	
+	<sql id="selectTAnswerVo">
+        select s_id, s_name, is_right, q_id, s_sort from t_answer
+    </sql>
+	
+    <select id="selectTAnswerList" parameterType="TAnswer" resultMap="TAnswerResult">
+        <include refid="selectTAnswerVo"/>
+        <where>  
+            <if test="sId != null "> and s_id = #{sId}</if>
+             <if test="sName != null  and sName != '' "> and s_name = #{sName}</if>
+             <if test="isRight != null "> and is_right = #{isRight}</if>
+             <if test="qId != null "> and q_id = #{qId}</if>
+             <if test="sSort != null "> and s_sort = #{sSort}</if>
+         </where>
+    </select>
+    
+    <select id="selectTAnswerById" parameterType="Integer" resultMap="TAnswerResult">
+        <include refid="selectTAnswerVo"/>
+        where s_id = #{sId}
+    </select>
+
+    <!-- 根据试题ID查询答案List -->
+     <select id="selectById" parameterType="String" resultMap="TAnswerResult">
+        <include refid="selectTAnswerVo"/>
+        where q_id = #{qId}
+    </select>
+        
+    <insert id="insertTAnswer" parameterType="TAnswer" useGeneratedKeys="true" keyProperty="sId">
+        insert into t_answer
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="sName != null  and sName != ''  ">s_name,</if>
+			<if test="isRight != null  ">is_right,</if>
+			<if test="qId != null  ">q_id,</if>
+			<if test="sSort != null  ">s_sort,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="sName != null  and sName != ''  ">#{sName},</if>
+			<if test="isRight != null  ">#{isRight},</if>
+			<if test="qId != null  ">#{qId},</if>
+			<if test="sSort != null  ">#{sSort},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateTAnswer" parameterType="TAnswer">
+        update t_answer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sName != null  and sName != ''  ">s_name = #{sName},</if>
+            <if test="isRight != null  ">is_right = #{isRight},</if>
+            <if test="qId != null  ">q_id = #{qId},</if>
+            <if test="sSort != null  ">s_sort = #{sSort},</if>
+        </trim>
+        where s_id = #{sId}
+    </update>
+
+	<delete id="deleteTAnswerById" parameterType="Integer">
+        delete from t_answer where s_id = #{sId}
+    </delete>
+	
+    <delete id="deleteTAnswerByIds" parameterType="String">
+        delete from t_answer where s_id in 
+        <foreach item="sId" collection="array" open="(" separator="," close=")">
+            #{sId}
+        </foreach>
+    </delete>
+    
+</mapper>

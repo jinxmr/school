@@ -27,7 +27,7 @@ public class TestquestionServiceImpl implements TestquestionService
      * @return 试题管理信息
      */
     @Override
-	public Testquestion selectTTestquestionById(Integer qId)
+	public Testquestion selectTTestquestionById(String qId)
 	{
 	    return tTestquestionMapper.selectTTestquestionById(qId);
 	}

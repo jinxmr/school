@@ -2,12 +2,16 @@ package com.school.project.teach.exam.controller;
 
 import java.util.List;
 
+import com.school.common.utils.UUIDUtil;
 import com.school.common.utils.poi.ExcelUtil;
 import com.school.framework.aspectj.lang.annotation.Log;
 import com.school.framework.aspectj.lang.enums.BusinessType;
 import com.school.framework.web.controller.BaseController;
 import com.school.framework.web.domain.AjaxResult;
 import com.school.framework.web.page.TableDataInfo;
+import com.school.project.teach.answer.domain.TAnswer;
+import com.school.project.teach.answer.service.ITAnswerService;
+import com.school.project.teach.answer.service.TAnswerServiceImpl;
 import com.school.project.teach.exam.domain.Testquestion;
 import com.school.project.teach.exam.service.TestquestionService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -34,6 +38,9 @@ public class TestquestionController extends BaseController
 	
 	@Autowired
 	private TestquestionService tTestquestionService;
+
+	@Autowired
+	private ITAnswerService tAnswerService;
 	
 	@RequiresPermissions("exam:tTestquestion:view")
 	@GetMapping()
@@ -85,16 +92,43 @@ public class TestquestionController extends BaseController
 	@Log(title = "试题管理", businessType = BusinessType.INSERT)
 	@PostMapping("/add")
 	@ResponseBody
-	public AjaxResult addSave(Testquestion tTestquestion)
-	{		
-		return toAjax(tTestquestionService.insertTTestquestion(tTestquestion));
+	public AjaxResult addSave(Testquestion tTestquestion, TAnswer tAnswer)
+	{
+		tTestquestion.setQId(UUIDUtil.getUUID());
+		String answerstr = tAnswer.getSName();
+		int res = 0;
+		//判断如果获取到的不为空
+		if(null != answerstr && "" != answerstr) {
+			//根据,分割
+			String[] answers = answerstr.split(",");
+			for(int i=0;i<answers.length;i++) {
+				//组装答案对象
+				TAnswer newAnswer = new TAnswer();
+				newAnswer.setQId(tTestquestion.getQId());
+				newAnswer.setSName(answers[i]);
+				newAnswer.setSSort(i);
+				//如果前台传过来的值与i相匹配 则说明是正确答案
+				if(tAnswer.getIsRight()==i){
+					newAnswer.setIsRight(tAnswer.getIsRight());
+				} else {
+					newAnswer.setIsRight(-1);
+				}
+				int ares = tAnswerService.insertTAnswer(newAnswer);
+				res += ares;
+			}
+			if(res == answers.length) {
+				int ok = tTestquestionService.insertTTestquestion(tTestquestion);
+				return toAjax(ok);
+			}
+		}
+		return toAjax(0);
 	}
 
 	/**
 	 * 修改试题管理
 	 */
 	@GetMapping("/edit/{qId}")
-	public String edit(@PathVariable("qId") Integer qId, ModelMap mmap)
+	public String edit(@PathVariable("qId") String qId, ModelMap mmap)
 	{
 		Testquestion tTestquestion = tTestquestionService.selectTTestquestionById(qId);
 		mmap.put("tTestquestion", tTestquestion);
