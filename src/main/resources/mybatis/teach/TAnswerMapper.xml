@@ -75,5 +75,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{sId}
         </foreach>
     </delete>
-    
+
+    <delete id="deleteAnswerByQId" parameterType="String">
+        delete from t_answer where q_id = #{qId}
+    </delete>
 </mapper>

@@ -39,10 +39,10 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">选项：</label>
 				<div class="col-sm-8">
-					<input type="radio" name="isRight" id="isRight0" value="0" checked=""><input name="sName" class="form-control alone" type="text">
-					<input type="radio" name="isRight" id="isRight1" value="1"><input name="sName" class="form-control alone" type="text">
-					<input type="radio" name="isRight" id="isRight2" value="2"><input name="sName" class="form-control alone" type="text">
-					<input type="radio" name="isRight" id="isRight3" value="3"><input name="sName" class="form-control alone" type="text">
+					<p th:each="ans,anstat:${tTestquestion.tAnswerList}">
+						<input type="radio" name="isRight" id="isRight0" th:checked="${ans.isRight!=-1}"  th:value="${anstat.index}">
+						<input name="sName" class="form-control alone" type="text" th:value="${ans.sName}" />
+					</p>
 					<p style="color: red;font-size: 12px;">注意：如果是判断题，则只需填写前两项即可</p>
 				</div>
 			</div>

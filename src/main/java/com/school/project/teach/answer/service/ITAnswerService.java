@@ -52,5 +52,9 @@ public interface ITAnswerService
      * @return 结果
      */
 	public int deleteTAnswerByIds(String ids);
-	
+
+	/**
+	 * 根据试题ID删除答案
+	 */
+	public int deleteAnswerByQId(String qId);
 }

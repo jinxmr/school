@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createUser"    column="create_user"    />
         <result property="updateTime"    column="update_time"    />
         <result property="updateUser"    column="update_user"    />
-        <collection property="tAnswerList" select="com.school.project.teach.answer.mapper.TAnswerMapper.selectById" column="qId"/>
+        <collection property="tAnswerList" select="com.school.project.teach.answer.mapper.TAnswerMapper.selectById" column="q_id"/>
     </resultMap>
 	
 	<sql id="selectTTestquestionVo">

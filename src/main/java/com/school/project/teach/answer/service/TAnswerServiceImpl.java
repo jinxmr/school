@@ -79,5 +79,12 @@ public class TAnswerServiceImpl implements ITAnswerService
 	{
 		return tAnswerMapper.deleteTAnswerByIds(Convert.toStrArray(ids));
 	}
-	
+
+	/**
+	 * 根据试题ID删除答案
+	 */
+	@Override
+	public int deleteAnswerByQId(String qId) {
+		return tAnswerMapper.deleteAnswerByQId(qId);
+	}
 }

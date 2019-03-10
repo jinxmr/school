@@ -67,5 +67,9 @@ public interface TAnswerMapper
 	 * 根据试题ID插叙答案List
 	 */
 	public TAnswer selectById(String qId);
-	
+
+	/**
+	 * 根据试题ID删除答案
+	 */
+	public int deleteAnswerByQId(String qId);
 }

@@ -142,9 +142,36 @@ public class TestquestionController extends BaseController
 	@Log(title = "试题管理", businessType = BusinessType.UPDATE)
 	@PostMapping("/edit")
 	@ResponseBody
-	public AjaxResult editSave(Testquestion tTestquestion)
-	{		
-		return toAjax(tTestquestionService.updateTTestquestion(tTestquestion));
+	public AjaxResult editSave(Testquestion tTestquestion , TAnswer tAnswer)
+	{
+		//判断如果获取到的不为空
+		String answerstr = tAnswer.getSName();
+		int res = 0;
+		if(null != answerstr && "" != answerstr) {
+			//先删除后新增
+			tAnswerService.deleteAnswerByQId(tTestquestion.getQId());
+			String[] answers = answerstr.split(",");
+			for(int i=0;i<answers.length;i++) {
+				//组装答案对象
+				TAnswer newAnswer = new TAnswer();
+				newAnswer.setQId(tTestquestion.getQId());
+				newAnswer.setSName(answers[i]);
+				newAnswer.setSSort(i);
+				//如果前台传过来的值与i相匹配 则说明是正确答案
+				if(tAnswer.getIsRight()==i){
+					newAnswer.setIsRight(tAnswer.getIsRight());
+				} else {
+					newAnswer.setIsRight(-1);
+				}
+				int ares = tAnswerService.insertTAnswer(newAnswer);
+				res += ares;
+			}
+			if(res == answers.length) {
+				int ok = tTestquestionService.updateTTestquestion(tTestquestion);
+				return toAjax(ok);
+			}
+		}
+		return toAjax(0);
 	}
 	
 	/**
