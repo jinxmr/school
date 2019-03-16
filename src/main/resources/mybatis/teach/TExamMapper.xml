@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.school.project.teach.exam.mapper.TExamMapper">
+    
+    <resultMap type="TExam" id="TExamResult">
+        <result property="eId"    column="e_id"    />
+        <result property="eName"    column="e_name"    />
+        <result property="remark"    column="remark"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+    </resultMap>
+	
+	<sql id="selectTExamVo">
+        select e_id, e_name, remark, status, create_by, create_time, update_by, update_time, start_time, end_time from t_exam
+    </sql>
+	
+    <select id="selectTExamList" parameterType="TExam" resultMap="TExamResult">
+        <include refid="selectTExamVo"/>
+        <where>  
+            <if test="eId != null "> and e_id = #{eId}</if>
+             <if test="eName != null  and eName != '' "> and e_name = #{eName}</if>
+             <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+             <if test="status != null  and status != '' "> and status = #{status}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="startTime != null "> and start_time = #{startTime}</if>
+             <if test="endTime != null "> and end_time = #{endTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectTExamById" parameterType="Integer" resultMap="TExamResult">
+        <include refid="selectTExamVo"/>
+        where e_id = #{eId}
+    </select>
+        
+    <insert id="insertTExam" parameterType="TExam" useGeneratedKeys="true" keyProperty="eId">
+        insert into t_exam
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="eName != null  and eName != ''  ">e_name,</if>
+			<if test="remark != null  and remark != ''  ">remark,</if>
+			<if test="status != null  and status != ''  ">status,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+            <if test="startTime != null  ">start_time,</if>
+            <if test="endTime != null  ">end_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="eName != null  and eName != ''  ">#{eName},</if>
+			<if test="remark != null  and remark != ''  ">#{remark},</if>
+			<if test="status != null  and status != ''  ">#{status},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+            <if test="startTime != null  ">#{startTime},</if>
+            <if test="endTime != null  ">#{endTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateTExam" parameterType="TExam">
+        update t_exam
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="eName != null  and eName != ''  ">e_name = #{eName},</if>
+            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+            <if test="status != null  and status != ''  ">status = #{status},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="startTime != null "> and start_time = #{startTime},</if>
+            <if test="endTime != null "> and end_time = #{endTime},</if>
+        </trim>
+        where e_id = #{eId}
+    </update>
+
+	<delete id="deleteTExamById" parameterType="Integer">
+        delete from t_exam where e_id = #{eId}
+    </delete>
+	
+    <delete id="deleteTExamByIds" parameterType="String">
+        delete from t_exam where e_id in 
+        <foreach item="eId" collection="array" open="(" separator="," close=")">
+            #{eId}
+        </foreach>
+    </delete>
+    
+</mapper>
