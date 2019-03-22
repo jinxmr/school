@@ -15,10 +15,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
         <result property="startTime"    column="start_time"    />
         <result property="endTime"    column="end_time"    />
+        <result property="eScore"    column="e_score"    />
     </resultMap>
 	
 	<sql id="selectTExamVo">
-        select e_id, e_name, remark, status, create_by, create_time, update_by, update_time, start_time, end_time from t_exam
+        select e_id, e_name, remark, status, create_by, create_time, update_by, update_time, start_time, end_time, e_score from t_exam
     </sql>
 	
     <select id="selectTExamList" parameterType="TExam" resultMap="TExamResult">
@@ -37,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </where>
     </select>
     
-    <select id="selectTExamById" parameterType="Integer" resultMap="TExamResult">
+    <select id="selectTExamById" parameterType="String" resultMap="TExamResult">
         <include refid="selectTExamVo"/>
         where e_id = #{eId}
     </select>
@@ -45,6 +46,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="insertTExam" parameterType="TExam" useGeneratedKeys="true" keyProperty="eId">
         insert into t_exam
 		<trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="eId != null  and eId != ''  ">e_id,</if>
 			<if test="eName != null  and eName != ''  ">e_name,</if>
 			<if test="remark != null  and remark != ''  ">remark,</if>
 			<if test="status != null  and status != ''  ">status,</if>
@@ -54,8 +56,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="updateTime != null  ">update_time,</if>
             <if test="startTime != null  ">start_time,</if>
             <if test="endTime != null  ">end_time,</if>
+            <if test="eScore != null  ">e_score,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="eId != null  and eId != ''  ">#{eId},</if>
 			<if test="eName != null  and eName != ''  ">#{eName},</if>
 			<if test="remark != null  and remark != ''  ">#{remark},</if>
 			<if test="status != null  and status != ''  ">#{status},</if>
@@ -65,6 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="updateTime != null  ">#{updateTime},</if>
             <if test="startTime != null  ">#{startTime},</if>
             <if test="endTime != null  ">#{endTime},</if>
+            <if test="eScore != null  ">#{eScore},</if>
          </trim>
     </insert>
 	 
@@ -84,7 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where e_id = #{eId}
     </update>
 
-	<delete id="deleteTExamById" parameterType="Integer">
+	<delete id="deleteTExamById" parameterType="String">
         delete from t_exam where e_id = #{eId}
     </delete>
 	

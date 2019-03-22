@@ -42,6 +42,7 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:exam:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:exam:remove')}]];
+        var datas = [[${@dict.getType('sys_status')}]];
         var prefix = ctx + "teach/exam";
 
         $(function() {
@@ -58,32 +59,40 @@
 		            checkbox: true
 		        },
 				{
-					field : 'eId', 
+					field : 'eid',
 					title : 'ID',
 					visible: false
 				},
 				{
-					field : 'eName', 
+					field : 'ename',
 					title : '试卷名称',
 					sortable: true
 				},
 				{
-					field : 'status', 
-					title : '试卷状态（0正常1停用）',
+					field : 'eScore',
+					title : '试卷总分',
 					sortable: true
 				},
 				{
-					fieldd : 'isTiming',
-					title : '定时考试',
-					sortable : false
+					field : 'status', 
+					title : '试卷状态',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(datas, value);
+                    }
+				},
+				{
+					field : 'remark',
+					title : '试卷描述',
+					sortable: false
 				},
 		        {
 		            title: '操作',
 		            align: 'center',
 		            formatter: function(value, row, index) {
 		            	var actions = [];
-		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.eId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.eId + '\')"><i class="fa fa-remove"></i>删除</a>');
+		            	actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="#" onclick="$.operate.edit(\'' + row.eid + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.eid + '\')"><i class="fa fa-remove"></i>删除</a>');
 						return actions.join('');
 		            }
 		        }]

@@ -30,6 +30,13 @@ public interface TestquestionMapper
      * @return 试题管理集合
      */
 	public List<Testquestion> selectTTestquestionList(Testquestion tTestquestion);
+
+	/**
+	 * 根据试题类型查询
+	 * @param qType
+	 * @return
+	 */
+	public List<Testquestion> selectTTestquestionListByQType(Integer qType);
 	
 	/**
      * 新增试题管理

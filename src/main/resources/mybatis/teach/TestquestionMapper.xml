@@ -35,6 +35,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="updateUser != null  and updateUser != '' "> and update_user = #{updateUser}</if>
          </where>
     </select>
+
+    <select id="selectTTestquestionListByQType" parameterType="int" resultMap="TestquestionResult">
+        <include refid="selectTTestquestionVo"/>
+        <where>
+            q_type = #{qType}
+        </where>
+    </select>
     
     <select id="selectTTestquestionById" parameterType="String" resultMap="TestquestionResult">
         <include refid="selectTTestquestionVo"/>

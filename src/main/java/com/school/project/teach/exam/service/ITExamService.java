@@ -19,7 +19,7 @@ public interface ITExamService
      * @param eId 试卷管理ID
      * @return 试卷管理信息
      */
-	public TExam selectTExamById(Integer eId);
+	public TExam selectTExamById(String eId);
 	
 	/**
      * 查询试卷管理列表
@@ -35,7 +35,7 @@ public interface ITExamService
      * @param tExam 试卷管理信息
      * @return 结果
      */
-	public int insertTExam(TExam tExam);
+	public int insertTExam(TExam tExam,int xnum, int xsrore, int pnum, int psrore);
 	
 	/**
      * 修改试卷管理

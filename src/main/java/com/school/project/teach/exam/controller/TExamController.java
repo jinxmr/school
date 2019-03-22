@@ -85,16 +85,17 @@ public class TExamController extends BaseController
 	@Log(title = "试卷管理", businessType = BusinessType.INSERT)
 	@PostMapping("/add")
 	@ResponseBody
-	public AjaxResult addSave(TExam tExam)
-	{		
-		return toAjax(tExamService.insertTExam(tExam));
+	public AjaxResult addSave(TExam tExam,int xnum, int xsrore, int pnum, int psrore)
+	{
+		int ok = tExamService.insertTExam(tExam, xnum, xsrore, pnum, psrore);
+		return toAjax(ok);
 	}
 
 	/**
 	 * 修改试卷管理
 	 */
 	@GetMapping("/edit/{eId}")
-	public String edit(@PathVariable("eId") Integer eId, ModelMap mmap)
+	public String edit(@PathVariable("eId") String eId, ModelMap mmap)
 	{
 		TExam tExam = tExamService.selectTExamById(eId);
 		mmap.put("tExam", tExam);

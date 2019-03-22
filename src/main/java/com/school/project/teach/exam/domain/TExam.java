@@ -16,7 +16,7 @@ public class TExam extends BaseEntity
 	private static final long serialVersionUID = 1L;
 	
 	/** ID */
-	private Integer eId;
+	private String eId;
 	/** 试卷名称 */
 	private String eName;
 	/** 试卷描述 */
@@ -37,13 +37,15 @@ public class TExam extends BaseEntity
 	private Date endTime;
 	/** 是否是定时考试 */
 	private int isTiming;
+	/** 总分 **/
+	private int eScore;
 
-	public void setEId(Integer eId) 
+	public void setEId(String eId)
 	{
 		this.eId = eId;
 	}
 
-	public Integer getEId() 
+	public String getEId()
 	{
 		return eId;
 	}
@@ -133,6 +135,14 @@ public class TExam extends BaseEntity
 
 	public void setIsTiming(int isTiming) {
 		this.isTiming = isTiming;
+	}
+
+	public int geteScore() {
+		return eScore;
+	}
+
+	public void seteScore(int eScore) {
+		this.eScore = eScore;
 	}
 
 	public String toString() {

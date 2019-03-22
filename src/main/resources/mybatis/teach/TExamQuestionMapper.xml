@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.school.project.teach.exam.mapper.TExamQuestionMapper">
+    
+    <resultMap type="TExamQuestion" id="TExamQuestionResult">
+        <result property="qId"    column="q_id"    />
+        <result property="eId"    column="e_id"    />
+    </resultMap>
+	
+	<sql id="selectTExamQuestionVo">
+        select q_id, e_id from t_exam_question
+    </sql>
+	
+    <select id="selectTExamQuestionList" parameterType="TExamQuestion" resultMap="TExamQuestionResult">
+        <include refid="selectTExamQuestionVo"/>
+        <where>  
+            <if test="qId != null  and qId != '' "> and q_id = #{qId}</if>
+             <if test="eId != null "> and e_id = #{eId}</if>
+         </where>
+    </select>
+    
+    <select id="selectTExamQuestionById" parameterType="String" resultMap="TExamQuestionResult">
+        <include refid="selectTExamQuestionVo"/>
+        where q_id = #{qId}
+    </select>
+        
+    <insert id="insertTExamQuestion" parameterType="TExamQuestion">
+        insert into t_exam_question
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="qId != null  and qId != ''  ">q_id,</if>
+			<if test="eId != null  ">e_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="qId != null  and qId != ''  ">#{qId},</if>
+			<if test="eId != null  ">#{eId},</if>
+         </trim>
+    </insert>
+    <!-- 批量插入 -->
+    <insert id="insertList" parameterType="java.util.List">
+        insert into t_exam_question
+        (q_id,e_id)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.qId,jdbcType=VARCHAR},
+            #{item.eId,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+	 
+    <update id="updateTExamQuestion" parameterType="TExamQuestion">
+        update t_exam_question
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="eId != null  ">e_id = #{eId},</if>
+        </trim>
+        where q_id = #{qId}
+    </update>
+
+	<delete id="deleteTExamQuestionById" parameterType="String">
+        delete from t_exam_question where q_id = #{qId}
+    </delete>
+	
+    <delete id="deleteTExamQuestionByIds" parameterType="String">
+        delete from t_exam_question where q_id in 
+        <foreach item="qId" collection="array" open="(" separator="," close=")">
+            #{qId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteTExamQuestionByExamIds" parameterType="String">
+        delete from t_exam_question where e_id in
+        <foreach item="eId" collection="array" open="(" separator="," close=")">
+            #{eId}
+        </foreach>
+    </delete>
+    
+</mapper>

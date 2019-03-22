@@ -2,6 +2,7 @@ package com.school.project.teach.exam.mapper;
 
 
 import com.school.project.teach.exam.domain.TExam;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
  * @author ruoyi
  * @date 2019-03-10
  */
+@Repository
 public interface TExamMapper 
 {
 	/**
@@ -19,7 +21,7 @@ public interface TExamMapper
      * @param eId 试卷管理ID
      * @return 试卷管理信息
      */
-	public TExam selectTExamById(Integer eId);
+	public TExam selectTExamById(String eId);
 	
 	/**
      * 查询试卷管理列表
@@ -51,7 +53,7 @@ public interface TExamMapper
      * @param eId 试卷管理ID
      * @return 结果
      */
-	public int deleteTExamById(Integer eId);
+	public int deleteTExamById(String eId);
 	
 	/**
      * 批量删除试卷管理

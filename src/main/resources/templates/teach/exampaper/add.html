@@ -47,10 +47,10 @@
 					<div class="layui-form-item">
 						<div class="layui-input-block">
 							<p>
-								选择题：
+								选择题：<input id="xnum" name="xnum" type="text" style="width: 30px;">道，每题<input id="xsrore" name="xsrore" type="text" style="width: 30px;">分。
 							</p>
 							<p>
-								判断题：
+								判断题：<input id="pnum" name="pnum" type="text" style="width: 30px;">道，每题<input id="psrore" name="psrore" type="text" style="width: 30px;">分。
 							</p>
 						</div>
 					</div>
@@ -61,18 +61,44 @@
     <div th:include="include::footer"></div>
 	<script th:src="@{/layui/layui.all.js}" charset="utf-8"></script>
     <script type="text/javascript">
-		var prefix = ctx + "system/tExam"
+		var prefix = ctx + "teach/exam"
 		$("#form-tExam-add").validate({
 			rules:{
-				xxxx:{
+                eName:{
 					required:true,
 				},
+                xnum:{
+                    required:true,
+                    digits:true
+                },
+                xcrore:{
+                    required:true,
+                    digits:true
+                },
+                pnum:{
+                    required:true,
+                    digits:true
+                },
+                pcrore:{
+                    required:true,
+                    digits:true
+                },
 			}
 		});
-		
+
 		function submitHandler() {
 	        if ($.validate.form()) {
-	            $.operate.save(prefix + "/add", $('#form-tExam-add').serialize());
+                var xnum = $("#xnum").val();
+                var xsrore = $("#xsrore").val();
+                var pnum = $("#pnum").val();
+                var psrore = $("#psrore").val();
+                var sumscore = xnum * xsrore + pnum * psrore;
+                var msg = confirm("所选题总分为：" + sumscore + " 分，确定要提交吗？ ");
+                if(msg) {
+                    $.operate.save(prefix + "/add", $('#form-tExam-add').serialize());
+				} else {
+                    return;
+				}
 	        }
 	    }
 	</script>
