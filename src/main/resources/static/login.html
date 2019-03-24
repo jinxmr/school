@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<title>登录</title>
+	<link href="css/weblogin.css" th:href="@{/static/css/weblogin.css}" rel="stylesheet"/>
+	<link href="css/bootstrap.min.css" th:href="@{/static/css/bootstrap.min.css}" rel="stylesheet"/>
+	<link href="ruoyi/css/ry-ui.css" th:href="@{/ruoyi/css/ry-ui.css?v=3.2.0}" rel="stylesheet"/>
+</head>
+ 
+<body>
+<div class="header" id="head">
+  <div class="title">大数据学习系统</div>
+	
+</div>
+	
+<div class="wrap" id="wrap">
+	<div class="logGet">
+		<!-- 头部提示信息 -->
+		<div class="logD logDtip">
+			<p class="p1">登录</p>
+		</div>
+		<form id="signupForm">
+			<!-- 输入框 -->
+			<div class="lgD">
+				<img src="img/user.png" width="20" height="20" alt=""/>
+				<input type="text" id="username" name="username" placeholder="输入用户名" />
+			</div>
+			<div class="lgD">
+				<img src="img/locked.png" width="20" height="20" alt=""/>
+				<input type="password" id="password" name="password" placeholder="输入用户密码" />
+			</div>
+			<div class="lgD" th:if="${captchaEnabled==true}">
+				<input type="text"  placeholder="输入验证码" name="validateCode" style="width: 45%;text-indent: 0.5rem;margin-right: 10%;"/>
+				<a href="javascript:void(0);" title="点击更换验证码">
+					<img th:src="@{captcha/captchaImage(type=${captchaType})}" class="imgcode" width="85%" style="top:auto;left:auto;width: 45%;height: 43px;"/>
+				</a>
+			</div>
+			<div class="logC">
+				<button id="btnSubmit" data-loading="正在验证登录，请稍后...">登 录</button>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="footer" id="foot">
+  <div class="copyright">
+    <div class="img">
+		<span>联系邮箱：XXXXX@163.com</span>
+	</div>
+	
+	<div class="img">
+		<span>联系地址：XXXXXXXXXX</span>
+	</div>
+	  
+	<div class="img">
+	  <span>联系电话：XXXXXXXXXXXXXXXX</span>
+	</div>
+  </div>
+</div>
+<script th:inline="javascript">
+	var ctx = "/";
+	//console.log(ctx);
+	//var captchaType = [[${captchaType}]];
+    //console.log(captchaType);
+</script>
+<script src="js/jquery.min.js" th:src="@{/static/js/jquery.min.js}"></script>
+<script src="ajax/libs/validate/jquery.validate.min.js" th:src="@{/ajax/libs/validate/jquery.validate.min.js}"></script>
+<script src="ajax/libs/validate/messages_zh.min.js" th:src="@{/static/ajax/libs/validate/messages_zh.min.js}"></script>
+<script src="ajax/libs/layer/layer.min.js" th:src="@{/ajax/libs/layer/layer.min.js}"></script>
+<script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+<script src="ruoyi/js/ry-ui.js" th:src="@{/ruoyi/js/ry-ui.js?v=3.2.0}"></script>
+<script src="ajax/libs/blockUI/jquery.blockUI.js" th:src="@{/ajax/libs/blockUI/jquery.blockUI.js}"></script>
+<script>
+    $(function() {
+        validateRule();
+        $('.imgcode').click(function() {
+            var url = "captcha/captchaImage?type=math&s=" + Math.random();
+            $(".imgcode").attr("src", url);
+        });
+		//触发
+        var url = "captcha/captchaImage?type=math&s=" + Math.random();
+        $(".imgcode").attr("src", url);
+    });
+    function validateRule() {
+        var icon = "<i class='fa fa-times-circle'></i> ";
+        $("#signupForm").validate({
+            rules: {
+                username: {
+                    required: true
+                },
+                password: {
+                    required: true
+                }
+            },
+            messages: {
+                username: {
+                    required: icon + "请输入您的用户名",
+                },
+                password: {
+                    required: icon + "请输入您的密码",
+                }
+            }
+        })
+    }
+
+    $.validator.setDefaults({
+        submitHandler: function() {
+            login();
+        }
+    });
+
+    function login() {
+        $.modal.loading($("#btnSubmit").data("loading"));
+        var username = $.common.trim($("input[name='username']").val());
+        var password = $.common.trim($("input[name='password']").val());
+        var validateCode = $("input[name='validateCode']").val();
+        $.ajax({
+            type: "post",
+            url: ctx+"webLogin",
+            data: {
+                "username": username,
+                "password": password,
+                "validateCode" : validateCode,
+                "rememberMe": false
+            },
+            success: function(r) {
+                console.log(r);
+                if (r.code == 0) {
+                    location.href = ctx + 'webIndex';
+                } else {
+                    $.modal.closeLoading();
+                    $('.imgcode').click();
+                    $(".code").val("");
+                    $.modal.msg(r.msg);
+                }
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

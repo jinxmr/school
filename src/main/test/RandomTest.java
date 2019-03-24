@@ -6,7 +6,7 @@ import java.util.Random;
  */
 public class RandomTest {
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         // 创造产生随机数的对象
         Random r = new Random();
         // 创建一个存储随机数的集合
@@ -27,6 +27,24 @@ public class RandomTest {
         // 增强for进行遍历。格式：for（元素数据类型 变量： 数组或者集合）
         for (Integer i : array) {
             System.out.println(i);
+        }
+    }*/
+
+    public static void main(String[] args) {
+        int length = 23;
+        StringBuilder str = new StringBuilder();
+        for (int i = 1; i < 24; i++) {
+            if (i % 4 == 1) {
+                str.append("<a>").append(String.valueOf(i));
+                continue;
+            }
+            if (i % 4 == 0 || i == length) {
+                str.append(String.valueOf(i)).append("</ a>");
+                System.out.println(str.toString());
+                str = new StringBuilder();
+                continue;
+            }
+            str.append(String.valueOf(i));
         }
     }
 }

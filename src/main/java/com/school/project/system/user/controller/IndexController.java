@@ -46,4 +46,18 @@ public class IndexController extends BaseController
         mmap.put("version", ruoYiConfig.getVersion());
         return "main";
     }
+
+    //前台课程列表页
+    @GetMapping("/webIndex")
+    public String webIndex(ModelMap mmap)
+    {
+        // 取身份信息
+        User user = getSysUser();
+        // 根据用户id取出菜单
+        List<Menu> menus = menuService.selectMenusByUser(user);
+        mmap.put("menus", menus);
+        mmap.put("user", user);
+        mmap.put("copyrightYear", ruoYiConfig.getCopyrightYear());
+        return "web/courseList";
+    }
 }
