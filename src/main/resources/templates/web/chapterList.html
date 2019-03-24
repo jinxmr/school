@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<title>小节列表</title>
+
+	<link th:href="@{/css/webchapter.css}" rel="stylesheet"/>
+<style type="text/css">
+#head {
+    height: 120px;
+    width: 100%;
+    background-color: #66CCCC;
+    text-align: center;
+    position: relative;
+}
+.title {
+    font-family: "����";
+    color: #FFFFFF;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 36px;
+    height: 40px;
+    width: 30%;
+}
+.ls-sec-body{margin:0 39px;}
+.ls-sec-body .img-ul{margin-right:-30px;overflow:hidden; margin-left:25%;}
+.ls-sec-body .img-ul .img-li{list-style:none}
+.ls-sec-body .img-ul .img1{height:140px;width:200px;border-radius:20px}
+.ls-sec-body .img-ul .p1{color:#33b5d5;font-size:14px;line-height:24px;margin-top:10px;}
+#foot .copyright p {
+    height: 24px;
+    width: 100%;
+}
+#foot {
+    width: 100%;
+    height: 126px;
+    background-color: #CC9933;
+    position: relative;
+	overflow:hidden
+}
+.copyright {
+    font-family: "����";
+    color: #FFFFFF;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);  /* ʹ��css3��transform��ʵ�� */
+    height: 60px;
+    width: 40%;
+    text-align:center;
+}
+	a{
+		text-decoration:none;
+	}
+</style>
+
+</head>
+<body>
+<div class="header" id="head">
+  <div class="title">大数据学习系统</div>
+</div>
+<div id="addV">
+	<div class="container">
+		<video id="videomp4" width="700" height="400">
+			<source id="mp4" type="video/mp4">
+		</video>
+	</div>
+</div>
+<div class="ls-sec-body" style="clear:both">
+	<ul class="img-ul">
+	</ul>
+</div>
+<div class="footer" id="foot">
+	<div class="copyright">
+		<div class="img">
+			<span>联系邮箱：XXXXX@163.com</span>
+		</div>
+
+		<div class="img">
+			<span>联系地址：XXXXXXXXXX</span>
+		</div>
+
+		<div class="img">
+			<span>联系电话：XXXXXXXXXXXXXXXX</span>
+		</div>
+	</div>
+</div>
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/video.js}"></script>
+
+<script type='text/javascript'>
+	var ctx = "/";
+    $(document).ready(function() {
+        $('video').videoPlayer({
+            'playerWidth' : 0.95,
+            'videoClass' : 'video'
+        });
+    });
+    //获取小节数据
+	$(function() {
+	    var id = [[${courseId}]];
+		$.post(ctx+"web/chapterList/"+id,{},function(data) {
+			console.log(data);
+			var datas = data.rows;
+			var res = "";
+			for(var i=0;i<datas.length;i++) {
+                var chapterId =datas[i].chapterId;
+                var chapterName = datas[i].chapterName;
+                var videoUrl = datas[i].videoUrl;
+                if(0 == i) {
+					$("#videomp4").attr("src", videoUrl);
+                    //document.getElementById("videomp4").play();
+				}
+                var createTime = datas[i].createTime;
+				res += "<li class=\"img-li\">" +
+					"<a onclick=\"lookChapter('"+videoUrl+"')\" href=\"javascript:void(0)\">" +
+					"<p class=\"p1 p-a666\">第"+(i+1)+"节："+chapterName+"</p>" +
+					"</a>" +
+					"</li>";
+			}
+			$(".img-ul").html(res);
+		});
+	});
+
+	function lookChapter(videoUrl){
+        $(".container").remove();
+        //document.getElementById("videomp4").play();
+		var videoHtml = "<div class=\"container\">" +
+        "<video id=\"videomp4\" src='"+videoUrl+"' width=\"700\" height=\"400\">" +
+            "<source id=\"mp4\" type=\"video/mp4\">" +
+            "</video>" +
+            "</div>";
+		$("#addV").html(videoHtml);
+        $(document).ready(function() {
+            $('video').videoPlayer({
+                'playerWidth' : 0.95,
+                'videoClass' : 'video'
+            });
+        });
+	}
+</script>
+</body>
+</html>

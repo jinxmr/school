@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -30,7 +31,7 @@ public class RandomTest {
         }
     }*/
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         int length = 23;
         StringBuilder str = new StringBuilder();
         for (int i = 1; i < 24; i++) {
@@ -46,5 +47,8 @@ public class RandomTest {
             }
             str.append(String.valueOf(i));
         }
+    }*/
+    public static void main(String[] args) throws IOException {
+
     }
 }

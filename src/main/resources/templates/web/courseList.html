@@ -77,7 +77,7 @@
         <!-- 左侧 start -->
         <div class="ls-section">
             <div class="ls-sec-head">
-                <h2>基本情况</h2>
+                <h2>课程列表</h2>
             </div>
             <div class="ls-sec-body">
                 <ul class="img-ul">
@@ -116,13 +116,13 @@
             var datas = "";
             var pinjiedata = "";
             for(var i=0;i<res.length;i++) {
-                var id = res[i].courseId;
+                var courseId = res[i].courseId;
                 var name = res[i].courseName;
                 var createTime = res[i].createTime;
                 var imgUrl = res[i].picUrl;
                 var remark = res[i].remark;
                 //拼接数据
-                    datas += "<a href=\"##\">"+
+                    datas += "<a href=\"web/chapterIndex/"+courseId+"\">"+
                         "<li class=\"img-li\"><img src="+imgUrl+" class=\"img1\">" +
                         "<p class=\"p1 p-a666\">"+name+"</p></li>" +
                         "</a>";
