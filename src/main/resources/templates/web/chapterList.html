@@ -54,6 +54,12 @@
 	a{
 		text-decoration:none;
 	}
+	#addV {
+		text-align: center;
+	}
+	#container {
+		margin: 0 auto;
+	}
 </style>
 
 </head>
@@ -62,12 +68,12 @@
   <div class="title">大数据学习系统</div>
 </div>
 <div id="addV">
-	<div class="container">
+	<div id="container" class="container">
 		<video id="videomp4" width="700" height="400">
-			<source id="mp4" type="video/mp4">
 		</video>
 	</div>
 </div>
+<p id="playedName" style="color: #1a7bb9;" align="center"></p>
 <div class="ls-sec-body" style="clear:both">
 	<ul class="img-ul">
 	</ul>
@@ -88,21 +94,20 @@
 	</div>
 </div>
 <script th:src="@{/js/jquery.min.js}"></script>
-<script th:src="@{/js/video.js}"></script>
+<script th:src="@{/js/jwplayer.js}"></script>
 
 <script type='text/javascript'>
 	var ctx = "/";
-    $(document).ready(function() {
+    /*$(document).ready(function() {
         $('video').videoPlayer({
             'playerWidth' : 0.95,
             'videoClass' : 'video'
         });
-    });
+    });*/
     //获取小节数据
 	$(function() {
 	    var id = [[${courseId}]];
 		$.post(ctx+"web/chapterList/"+id,{},function(data) {
-			console.log(data);
 			var datas = data.rows;
 			var res = "";
 			for(var i=0;i<datas.length;i++) {
@@ -110,12 +115,14 @@
                 var chapterName = datas[i].chapterName;
                 var videoUrl = datas[i].videoUrl;
                 if(0 == i) {
-					$("#videomp4").attr("src", videoUrl);
+                    lookChapter(videoUrl, chapterName);
+                    $("#playedName").html("正在播放："+ chapterName);
+					//$("#videomp4").attr("src", videoUrl);
                     //document.getElementById("videomp4").play();
 				}
                 var createTime = datas[i].createTime;
 				res += "<li class=\"img-li\">" +
-					"<a onclick=\"lookChapter('"+videoUrl+"')\" href=\"javascript:void(0)\">" +
+					"<a onclick=\"lookChapter('"+videoUrl+"','"+chapterName+"')\" href=\"javascript:void(0)\">" +
 					"<p class=\"p1 p-a666\">第"+(i+1)+"节："+chapterName+"</p>" +
 					"</a>" +
 					"</li>";
@@ -123,22 +130,22 @@
 			$(".img-ul").html(res);
 		});
 	});
-
-	function lookChapter(videoUrl){
-        $(".container").remove();
-        //document.getElementById("videomp4").play();
-		var videoHtml = "<div class=\"container\">" +
-        "<video id=\"videomp4\" src='"+videoUrl+"' width=\"700\" height=\"400\">" +
-            "<source id=\"mp4\" type=\"video/mp4\">" +
-            "</video>" +
-            "</div>";
-		$("#addV").html(videoHtml);
-        $(document).ready(function() {
-            $('video').videoPlayer({
-                'playerWidth' : 0.95,
-                'videoClass' : 'video'
-            });
+    var thePlayer;
+	function lookChapter(url, name){
+        var tag='.avi';
+        var tag1 = '.wmv';
+        if(url.indexOf(tag) != -1|| url.indexOf(tag1) != -1){
+            $('.pages_cover').show();return;
+        }
+        thePlayer = jwplayer('container').setup({
+            flashplayer: 'jwplayer.flash.swf',
+            width: 820,
+            file:url,
+            height: 414,
+            autostart:false,
+            dock: false ,
         });
+        $("#playedName").html("正在播放："+ name);
 	}
 </script>
 </body>
