@@ -125,5 +125,16 @@ public class TExamController extends BaseController
 	{		
 		return toAjax(tExamService.deleteTExamByIds(ids));
 	}
-	
+
+	/**
+	 * 跳转考试试题页面
+	 * @param eId
+	 * @param mmap
+	 * @return
+	 */
+	@GetMapping("/toExam/{eId}")
+	public String toExam(@PathVariable("eId") String eId, ModelMap mmap) {
+		mmap.put("eid",eId);
+		return "web/questionList";
+	}
 }

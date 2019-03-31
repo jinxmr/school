@@ -99,5 +99,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{qId}
         </foreach>
     </delete>
-    
+
+    <select id="selectQuestionByEId" parameterType="String" resultMap="TestquestionResult">
+        select q.q_id, q.q_name, q.q_no, q.q_type, q.q_score, q.create_time, q.create_user, q.update_time, q.update_user from t_testquestion q
+        INNER JOIN t_exam_question eq on q.q_id=eq.q_id
+        INNER JOIN t_exam e on e.e_id=eq.e_id
+        where e.e_id = #{eId}
+    </select>
+
 </mapper>

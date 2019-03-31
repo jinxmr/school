@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>考试试卷</title>
+<link th:href="@{/css/webquestion/main.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/webquestion/iconfont.css}" rel="stylesheet" type="text/css" />
+<link th:href="@{/css/webquestion/test.css}" rel="stylesheet" type="text/css" />
+<style>
+.hasBeenAnswer {
+	background: #5d9cec;
+	color:#fff;
+}
+</style>
+</head>
+<body>
+	<div class="main">
+		<!--nr start-->
+		<div class="test_main">
+			<div class="nr_left">
+				<div class="test">
+					<form action="" method="post">
+						<div class="test_title">
+							<font><input type="button" name="test_jiaojuan" value="交卷"></font>
+						</div>
+							<div class="test_content">
+								<div class="test_content_title">
+									<h2>单选题</h2>
+									<p>
+										<span>共</span><i class="content_lit" id="choose">60</i><span>题，</span><span>合计</span><i class="content_fs" id="choosescore">60</i><span>分</span>
+									</p>
+								</div>
+							</div>
+							<div class="test_content_nr">
+								<ul id="chooseInfo">
+									<!--<li id="qu_0_0">
+										<div class="test_content_nr_tt">
+											<i>1</i><span>(1分)</span><font>这里是试题这里是试题这里是试题这里是试题这里是试题这里是试题这里是试题这里是试题这里是试题</font><b class="icon iconfont">&#xe881;</b>
+										</div>
+										<div class="test_content_nr_main">
+											<ul>
+												<li class="option">
+														<input type="radio" class="radioOrCheck" name="answer1"
+															id="0_answer_1_option_1"
+														/>
+													<label for="0_answer_1_option_1">
+														A.
+														<p class="ue" style="display: inline;">这里是A答案这里是A答案这里是A答案这里是A答案这里是A答案</p>
+													</label>
+												</li>
+												<li class="option">
+														<input type="radio" class="radioOrCheck" name="answer1"
+															id="0_answer_1_option_2"
+														/>
+													<label for="0_answer_1_option_2">
+														B.
+														<p class="ue" style="display: inline;">这里是B答案这里是B答案这里是B答案这里是B答案这里是B答案</p>
+													</label>
+												</li>
+												<li class="option">
+														<input type="radio" class="radioOrCheck" name="answer1"
+															id="0_answer_1_option_3"
+														/>
+													<label for="0_answer_1_option_3">
+														C.
+														<p class="ue" style="display: inline;">这里是C答案这里是C答案这里是C答案这里是C答案这里是C答案</p>
+													</label>
+												</li>
+											</ul>
+										</div>
+									</li>-->
+								</ul>
+							</div>
+						<div class="test_content">
+							<div class="test_content_title">
+								<h2>判断题</h2>
+								<p>
+									<span>共</span><i class="content_lit" id="sumjudge"></i><span>题，</span><span>合计</span><i class="content_fs" id="judgescore"></i><span>分</span>
+								</p>
+							</div>
+						</div>
+						<div class="test_content_nr">
+							<ul id="judgeInfo">
+							</ul>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!--nr end-->
+		<div class="foot"></div>
+	</div>
+	<script th:src="@{/js/jquery.min.js}"></script>
+	<script th:src="@{/css/webquestion/jquery.easy-pie-chart.js}"></script>
+	<script>
+		var ctx = "/";
+		$(function() {
+		    var eId = "[[${eid}]]";
+		    //获取数据
+			$.get(ctx+"exam/tTestquestion/qlist/"+eId,{},function (data) {
+				console.log(data);
+				if(data.length > 0) {
+				    var choose = "";
+				    var judge = "";
+                    var jsumscore = 0;
+                    var csumscore = 0;
+                    var cnum = 1;//定义试题的前置编号
+                    var jnum = 1;//定义试题的前置编号
+                    for(var i=0;i<data.length;i++) {
+						var type = data[i].qtype;//试题类型
+						if(type === 1) {	//判断题
+							var jscore = data[i].qscore;
+                            jsumscore += jscore;	//计算题型总分
+							var qname = data[i].qname;
+							var qid = data[i].qid;
+							judge += "<li id=\""+qid+"\">" +
+                            	"<div class=\"test_content_nr_tt\">"+
+                                "<i>"+jnum+"</i><span>("+jscore+"分)</span><font>"+qname+"</font><b class=\"icon iconfont\">&#xe881;</b>"+
+                            	"</div>"+
+                            	"<div class=\"test_content_nr_main\">"+
+                                "<ul>";
+							var answers = data[i].tAnswerList;
+							for(var j=0;j<answers.length;j++) {
+							    var sname = answers[j].sname;
+							    var sid = answers[j].sid;
+								judge += "<li class=\"option\">"+
+                                	"<input type=\"radio\" class=\"radioOrCheck\" name=\""+qid+"\" value=\""+sid+"\""+
+                                	"id=\""+qid+"\""+
+                                    "/>"+
+                                    "<label for=\""+qid+"\">"+
+                                    "<p class=\"ue\" style=\"display: inline;\">"+sname+"</p>"+
+                                    "</label>"+
+                                    "</li>";
+							}
+                            judge += "</ul>"+
+                                "</div>";
+							jnum++;
+							continue;
+						} else {
+                            var cscore = data[i].qscore;
+                            csumscore += cscore;	//计算题型总分
+                            var qname = data[i].qname;
+                            var qid = data[i].qid;
+                            choose += "<li id=\""+qid+"\">" +
+                                "<div class=\"test_content_nr_tt\">"+
+                                "<i>"+cnum+"</i><span>("+jscore+"分)</span><font>"+qname+"</font><b class=\"icon iconfont\">&#xe881;</b>"+
+                                "</div>"+
+                                "<div class=\"test_content_nr_main\">"+
+                                "<ul>";
+                            var answers = data[i].tAnswerList;
+                            for(var j=0;j<answers.length;j++) {
+                                var sname = answers[j].sname;
+                                var sid = answers[j].sid;
+                                choose += "<li class=\"option\">"+
+                                    "<input type=\"radio\" class=\"radioOrCheck\" name=\""+qid+"\" value=\""+sid+"\""+
+                                    "id=\""+qid+"\""+
+                                    "/>"+
+                                    "<label for=\""+qid+"\">"+
+                                    "<p class=\"ue\" style=\"display: inline;\">"+sname+"</p>"+
+                                    "</label>"+
+                                    "</li>";
+                            }
+                            choose += "</ul>"+
+                                "</div>";
+                            cnum++;
+						}
+					}
+                    $("#chooseInfo").html(choose);
+                    $("#choose").text(cnum-1);
+                    $("#choosescore").text(cscore);
+					$("#judgeInfo").html(judge);
+                    $("#judgescore").text(jsumscore);
+                    $("#sumjudge").text(jnum-1);
+				}
+            });
+			$('li.option label').click(function() {
+				var examId = $(this).closest('.test_content_nr_main').closest('li').attr('id'); // 得到题目ID
+				var cardLi = $('a[href=#' + examId + ']'); // 根据题目ID找到对应答题卡
+				// 设置已答题
+				if(!cardLi.hasClass('hasBeenAnswer')){
+					cardLi.addClass('hasBeenAnswer');
+				}
+
+			});
+		});
+	</script>
+</body>
+</html>

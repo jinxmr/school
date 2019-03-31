@@ -185,5 +185,14 @@ public class TestquestionController extends BaseController
 	{		
 		return toAjax(tTestquestionService.deleteTTestquestionByIds(ids));
 	}
-	
+
+
+
+	@GetMapping("/qlist/{eId}")
+	@ResponseBody
+	public List<Testquestion> selectByEID(@PathVariable("eId")String eId) {
+		List<Testquestion> testquestionList = tTestquestionService.selectTTestquestionListByEid(eId);
+		return testquestionList;
+	}
+
 }

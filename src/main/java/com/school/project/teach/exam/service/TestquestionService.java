@@ -51,5 +51,12 @@ public interface TestquestionService
      * @return 结果
      */
 	public int deleteTTestquestionByIds(String ids);
+
+	/**
+	 * 根据试卷ID 查询试题以及试题答案
+	 * @param eId
+	 * @return
+	 */
+	List<Testquestion> selectTTestquestionListByEid(String eId);
 	
 }

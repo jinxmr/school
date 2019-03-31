@@ -69,5 +69,7 @@ public interface TestquestionMapper
      * @return 结果
      */
 	public int deleteTTestquestionByIds(String[] qIds);
+
+	public List<Testquestion> selectQuestionByEId(String eId);
 	
 }

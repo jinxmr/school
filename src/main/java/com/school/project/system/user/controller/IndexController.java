@@ -11,6 +11,9 @@ import com.school.project.system.menu.domain.Menu;
 import com.school.project.system.menu.service.IMenuService;
 import com.school.project.system.user.domain.User;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 /**
  * 首页 业务处理
  * 
@@ -49,10 +52,11 @@ public class IndexController extends BaseController
 
     //前台课程列表页
     @GetMapping("/webIndex")
-    public String webIndex(ModelMap mmap)
+    public String webIndex(ModelMap mmap, HttpServletRequest request)
     {
         // 取身份信息
         User user = getSysUser();
+        request.getSession().setAttribute("user", user);
         // 根据用户id取出菜单
         List<Menu> menus = menuService.selectMenusByUser(user);
         mmap.put("menus", menus);
