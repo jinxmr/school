@@ -107,4 +107,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where e.e_id = #{eId}
     </select>
 
+    <select id="selectSumByqIds" parameterType="java.util.List" resultType="java.lang.Integer">
+        SELECT sum(q_score) from t_testquestion
+        where
+        q_id IN
+        <foreach collection="list" item="qId" index="index" open="(" close=")" separator=",">
+            #{qId}
+        </foreach>
+    </select>
 </mapper>

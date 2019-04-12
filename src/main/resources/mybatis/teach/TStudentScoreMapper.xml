@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.school.project.teach.exam.mapper.TStudentScoreMapper">
+    
+    <resultMap type="TStudentScore" id="TStudentScoreResult">
+        <result property="id"    column="id"    />
+        <result property="examId"    column="exam_id"    />
+        <result property="sumScore"    column="sum_score"    />
+        <result property="examUsername"    column="exam_username"    />
+        <result property="examUserid"    column="exam_userid"    />
+        <result property="examTime"    column="exam_time"    />
+        <association property="exam" column="exam_id" select="com.school.project.teach.exam.mapper.TExamMapper.selectTExamById" />
+    </resultMap>
+	
+	<sql id="selectTStudentScoreVo">
+        select id, exam_id, sum_score, exam_username, exam_userid, exam_time from t_student_score
+    </sql>
+	
+    <select id="selectTStudentScoreList" parameterType="TStudentScore" resultMap="TStudentScoreResult">
+        <include refid="selectTStudentScoreVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="examId != null  and examId != '' "> and exam_id = #{examId}</if>
+             <if test="sumScore != null "> and sum_score = #{sumScore}</if>
+             <if test="examUsername != null "> and exam_username = #{examUsername}</if>
+             <if test="examUserid != null "> and exam_userid = #{examUserid}</if>
+             <if test="examTime != null "> and exam_time = #{examTime}</if>
+         </where>
+    </select>
+    
+    <select id="selectTStudentScoreById" parameterType="Integer" resultMap="TStudentScoreResult">
+        <include refid="selectTStudentScoreVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTStudentScore" parameterType="TStudentScore" useGeneratedKeys="true" keyProperty="id">
+        insert into t_student_score
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="examId != null  and examId != ''  ">exam_id,</if>
+			<if test="sumScore != null  ">sum_score,</if>
+			<if test="examUsername != null  ">exam_username,</if>
+			<if test="examUserid != null  ">exam_userid,</if>
+			<if test="examTime != null  ">exam_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="examId != null  and examId != ''  ">#{examId},</if>
+			<if test="sumScore != null  ">#{sumScore},</if>
+			<if test="examUsername != null  ">#{examUsername},</if>
+			<if test="examUserid != null  ">#{examUserid},</if>
+			<if test="examTime != null  ">#{examTime},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateTStudentScore" parameterType="TStudentScore">
+        update t_student_score
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="examId != null  and examId != ''  ">exam_id = #{examId},</if>
+            <if test="sumScore != null  ">sum_score = #{sumScore},</if>
+            <if test="examUsername != null  ">exam_username = #{examUsername},</if>
+            <if test="examUserid != null  ">exam_userid = #{examUserid},</if>
+            <if test="examTime != null  ">exam_time = #{examTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteTStudentScoreById" parameterType="Integer">
+        delete from t_student_score where id = #{id}
+    </delete>
+	
+    <delete id="deleteTStudentScoreByIds" parameterType="String">
+        delete from t_student_score where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -79,4 +79,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="deleteAnswerByQId" parameterType="String">
         delete from t_answer where q_id = #{qId}
     </delete>
+
+    <select id="selectByQIds" parameterType="java.util.List" resultMap="TAnswerResult">
+        <include refid="selectTAnswerVo"/>
+        where
+        is_right >= 0 AND
+        q_id IN
+        <foreach collection="list" item="qId" index="index" open="(" close=")" separator=",">
+          #{qId}
+        </foreach>
+    </select>
 </mapper>

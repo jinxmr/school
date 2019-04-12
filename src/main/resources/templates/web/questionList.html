@@ -20,7 +20,8 @@
 		<div class="test_main">
 			<div class="nr_left">
 				<div class="test">
-					<form action="" method="post">
+					<form id="form1" action="##" onsubmit="return false" method="post">
+						<input type="hidden" name="examId" id="examId" value="" />
 						<div class="test_title">
 							<font><input type="button" name="test_jiaojuan" value="交卷"></font>
 						</div>
@@ -97,9 +98,9 @@
 		var ctx = "/";
 		$(function() {
 		    var eId = "[[${eid}]]";
+		    $("#examId").val(eId);
 		    //获取数据
 			$.get(ctx+"exam/tTestquestion/qlist/"+eId,{},function (data) {
-				console.log(data);
 				if(data.length > 0) {
 				    var choose = "";
 				    var judge = "";
@@ -174,16 +175,65 @@
                     $("#sumjudge").text(jnum-1);
 				}
             });
-			$('li.option label').click(function() {
-				var examId = $(this).closest('.test_content_nr_main').closest('li').attr('id'); // 得到题目ID
-				var cardLi = $('a[href=#' + examId + ']'); // 根据题目ID找到对应答题卡
-				// 设置已答题
-				if(!cardLi.hasClass('hasBeenAnswer')){
-					cardLi.addClass('hasBeenAnswer');
-				}
-
-			});
 		});
+
+        /**
+		 * 试卷提交
+         */
+		$("input:button").click(function(){
+		    //获取选择题的所有name值
+			var jsonData = {};
+		    var chooseli = $("#chooseInfo").children();
+		    for(var i=0;i<chooseli.length;i++) {
+				var liid = chooseli[i].getAttribute("id");
+				if(null != liid && "" != liid) {
+                    var val=$('input:radio[name=\"'+liid+'\"]:checked').val();
+                    if(undefined == val || null == val || "" == val) {
+						alert("选择题第"+(i+1)+"道题还没选择！");
+                        jsonData = {};
+						return ;
+					}
+                    //var oneans = {liid:val};
+                    jsonData[liid] = val;
+				}
+			}
+			//获取判断题的所有name值
+			var judgeli = $("#judgeInfo").children();
+            for(var i=0;i<judgeli.length;i++) {
+                var liid = judgeli[i].getAttribute("id");
+                if(null != liid && "" != liid) {
+                    var val=$('input:radio[name=\"'+liid+'\"]:checked').val();
+                    console.log(liid+":"+val);
+                    if(undefined == val || null == val || "" == val) {
+                        alert("判断题第"+(i+1)+"道题还没选择！");
+                        jsonData = {};
+                        return ;
+                    }
+                    jsonData[liid] = val;
+                    jsonData["examId"] = $("#examId").val();;
+                }
+            }
+            console.log(jsonData);
+			$.ajax({
+			    type: "POST",
+                dataType: "json",//预期服务器返回的数据类型
+                url: "/teach/exam/sumScore" ,//url
+                data: JSON.stringify(jsonData),
+                contentType : "application/json",
+                success: function (result) {
+					console.log(result);//打印服务端返回的数据(调试用)
+					if(result.code === 0) {
+						alert(result.msg);
+					} else {
+                        alert("异常！");
+					}
+				},
+				error : function() {
+					alert("异常！");
+				}
+            });
+
+		})
 	</script>
 </body>
 </html>

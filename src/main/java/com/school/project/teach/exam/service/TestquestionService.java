@@ -58,5 +58,10 @@ public interface TestquestionService
 	 * @return
 	 */
 	List<Testquestion> selectTTestquestionListByEid(String eId);
+
+	/**
+	 * 根据IDlist查询
+	 */
+	Integer selectSumByqIds(List<String> qIdList);
 	
 }

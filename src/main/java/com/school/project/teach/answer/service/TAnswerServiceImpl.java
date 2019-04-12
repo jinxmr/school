@@ -87,4 +87,10 @@ public class TAnswerServiceImpl implements ITAnswerService
 	public int deleteAnswerByQId(String qId) {
 		return tAnswerMapper.deleteAnswerByQId(qId);
 	}
+
+	@Override
+	public List<TAnswer> selectByQIds(List<Integer> qIds) {
+		List<TAnswer> list = tAnswerMapper.selectByQIds(qIds);
+		return list;
+	}
 }

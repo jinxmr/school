@@ -71,5 +71,9 @@ public interface TestquestionMapper
 	public int deleteTTestquestionByIds(String[] qIds);
 
 	public List<Testquestion> selectQuestionByEId(String eId);
-	
+
+	/**
+	 * 根据IDlist查询
+	 */
+	Integer selectSumByqIds(List<String> qIdList);
 }

@@ -107,4 +107,13 @@ public class TestquestionServiceImpl implements TestquestionService
 		tTestquestionMapper.sele*/
 		return tExamQuestionList;
 	}
+
+	/**
+	 * 查询答案正确的试题总分数并返回
+	 */
+	@Override
+	public Integer selectSumByqIds(List<String> qIdList) {
+		Integer sumScore = tTestquestionMapper.selectSumByqIds(qIdList);
+		return sumScore;
+	}
 }

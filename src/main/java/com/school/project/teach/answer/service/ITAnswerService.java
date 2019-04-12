@@ -57,4 +57,9 @@ public interface ITAnswerService
 	 * 根据试题ID删除答案
 	 */
 	public int deleteAnswerByQId(String qId);
+
+	/**
+	 * 查询答案列表
+	 */
+	public List<TAnswer> selectByQIds(List<Integer> qIds);
 }
