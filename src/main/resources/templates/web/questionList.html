@@ -224,6 +224,7 @@
 					console.log(result);//打印服务端返回的数据(调试用)
 					if(result.code === 0) {
 						alert(result.msg);
+                        window.location.href=ctx+"web/toExamList";
 					} else {
                         alert("异常！");
 					}

@@ -1,9 +1,11 @@
 package com.school.project.teach.exam.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.school.common.support.Convert;
+import com.school.common.utils.security.ShiroUtils;
 import com.school.project.teach.exam.domain.TExamQuestion;
 import com.school.project.teach.exam.domain.Testquestion;
 import com.school.project.teach.exam.mapper.TExamQuestionMapper;
@@ -62,6 +64,9 @@ public class TestquestionServiceImpl implements TestquestionService
 	@Override
 	public int insertTTestquestion(Testquestion tTestquestion)
 	{
+		tTestquestion.setCreateBy(ShiroUtils.getLoginName());
+		tTestquestion.setUpdateBy(ShiroUtils.getLoginName());
+		tTestquestion.setCreateTime(new Date());
 	    return tTestquestionMapper.insertTestquestion(tTestquestion);
 	}
 	
@@ -74,6 +79,7 @@ public class TestquestionServiceImpl implements TestquestionService
 	@Override
 	public int updateTTestquestion(Testquestion tTestquestion)
 	{
+		tTestquestion.setUpdateBy(ShiroUtils.getLoginName());
 	    return tTestquestionMapper.updateTTestquestion(tTestquestion);
 	}
 

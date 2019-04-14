@@ -2,6 +2,7 @@ package com.school.project.teach.exam.service;
 
 import com.school.common.support.Convert;
 import com.school.common.utils.UUIDUtil;
+import com.school.common.utils.security.ShiroUtils;
 import com.school.project.teach.exam.domain.TExam;
 import com.school.project.teach.exam.domain.TExamQuestion;
 import com.school.project.teach.exam.domain.Testquestion;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -71,6 +73,10 @@ public class TExamServiceImpl implements ITExamService
 		//查询题库 判断选择分别查询
 		//查询选择题
 		tExam.setEId(UUIDUtil.getUUID());
+		tExam.setCreateBy(ShiroUtils.getLoginName());
+		tExam.setCreateTime(new Date());
+		tExam.setUpdateBy(ShiroUtils.getLoginName());
+		tExam.setUpdateTime(new Date());
 		List<Testquestion> testquestionList = testquestionMapper.selectTTestquestionListByQType(0);
 		List<TExamQuestion> listchoose = new ArrayList<>();
 		//判断 如果传过来的题数大于等于数据库里查出的题述，则默认将数据库查出的题数全部加载到该试卷中，判断题同理
@@ -143,6 +149,8 @@ public class TExamServiceImpl implements ITExamService
 	@Override
 	public int updateTExam(TExam tExam)
 	{
+		tExam.setUpdateBy(ShiroUtils.getLoginName());
+		tExam.setUpdateTime(new Date());
 	    return tExamMapper.updateTExam(tExam);
 	}
 

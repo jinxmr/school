@@ -46,7 +46,7 @@ public class TCourseController extends BaseController
 	/**
 	 * 查询教学中心: 课程管理列表
 	 */
-	@RequiresPermissions("teach:tCourse:list")
+	//@RequiresPermissions("teach:tCourse:list")
 	@PostMapping("/list")
 	@ResponseBody
 	public TableDataInfo list(TCourse tCourse)

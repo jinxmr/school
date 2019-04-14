@@ -79,7 +79,8 @@ public class LogoutFilter extends org.apache.shiro.web.filter.authc.LogoutFilter
         String url = getLoginUrl();
         if (StringUtils.isNotEmpty(url))
         {
-            return url;
+            //return url;
+            return "webLogin";//返回前台登录页面 如果要返回后台 将这行注掉放开上一行即可
         }
         return super.getRedirectUrl(request, response, subject);
     }

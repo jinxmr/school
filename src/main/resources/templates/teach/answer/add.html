@@ -36,9 +36,15 @@
 		var prefix = ctx + "system/tAnswer"
 		$("#form-tAnswer-add").validate({
 			rules:{
-				xxxx:{
+                sName:{
 					required:true,
 				},
+                isRight:{
+                    required:true,
+                },
+                sSort:{
+                    required:true,
+                }
 			}
 		});
 		

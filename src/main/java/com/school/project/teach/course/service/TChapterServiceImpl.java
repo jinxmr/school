@@ -1,8 +1,10 @@
 package com.school.project.teach.course.service;
 
+import java.util.Date;
 import java.util.List;
 
 import com.school.common.support.Convert;
+import com.school.common.utils.security.ShiroUtils;
 import com.school.project.teach.course.domain.TChapter;
 import com.school.project.teach.course.mapper.TChapterMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,9 @@ public class TChapterServiceImpl implements ITChapterService
 	@Override
 	public int insertTChapter(TChapter tChapter)
 	{
+		tChapter.setCreateBy(ShiroUtils.getLoginName());
+		tChapter.setUpdateBy(ShiroUtils.getLoginName());
+		tChapter.setCreateTime(new Date());
 	    return tChapterMapper.insertTChapter(tChapter);
 	}
 	

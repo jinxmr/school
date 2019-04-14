@@ -36,11 +36,17 @@
     <script type="text/javascript">
 		var prefix = ctx + "system/tAnswer";
 		$("#form-tAnswer-edit").validate({
-			rules:{
-				xxxx:{
-					required:true,
-				},
-			}
+            rules:{
+                sName:{
+                    required:true,
+                },
+                isRight:{
+                    required:true,
+                },
+                sSort:{
+                    required:true,
+                }
+            }
 		});
 		
 		function submitHandler() {
