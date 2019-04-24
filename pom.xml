@@ -266,7 +266,14 @@
             <artifactId>xmlunit-core</artifactId>
         </dependency>
 
-    </dependencies>
+		<!-- https://mvnrepository.com/artifact/org.csource/fastdfs-client-java -->
+		<dependency>
+			<groupId>org.csource</groupId>
+			<artifactId>fastdfs-client-java</artifactId>
+			<version>1.27-RELEASE</version>
+		</dependency>
+
+	</dependencies>
 
 	<build>
 		<finalName>${project.artifactId}</finalName>

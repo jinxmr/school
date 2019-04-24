@@ -35,6 +35,12 @@ public class WebLoginController extends BaseController {
         return "web/login";
     }
 
+    @GetMapping("/webUpload")
+    public String webUpload(HttpServletRequest request, HttpServletResponse response)
+    {
+        return "web/upload";
+    }
+
     @PostMapping("/webLogin")
     @ResponseBody
     public AjaxResult WebAjaxLogin(String username, String password, Boolean rememberMe)
